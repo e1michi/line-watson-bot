@@ -100,7 +100,5 @@ module LineClient
         eventType: EVENT_TYPE
       }
     end
-    
-    client.close
   end
 end

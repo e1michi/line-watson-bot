@@ -37,7 +37,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'faraday'
 gem 'faraday_middleware'
 
-# Heroku
+# For Heroku Logging
 gem 'rails_12factor', group: :production
 
 group :development, :test do

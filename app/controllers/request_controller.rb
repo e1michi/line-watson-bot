@@ -1,12 +1,6 @@
 class RequestController < ApplicationController
   include LineClient
-  
   protect_from_forgery :except => [:callback] # For CSRF
-
-  # CHANNEL_ID = ENV['LINE_CHANNEL_ID']
-  # CHANNEL_SECRET = ENV['LINE_CHANNEL_SECRET']
-  # CHANNEL_MID = ENV['LINE_CHANNEL_MID']
-  # OUTBOUND_PROXY = ENV['LINE_OUTBOUND_PROXY']
 
   def callback
     # for production
@@ -21,37 +15,23 @@ class RequestController < ApplicationController
     params[:result].each do | item |
       model = LineRequestModel.new item
       unless model.content.contentType == 1
+        # Unsupported content type
         next
       end
-      post([model.content.from], model.content.text)
+      
+      # Work with Watson
+      
+      # Send message to LINE service
+      response = post(model.content.from, model.content.text)
+      info('RequestController#callback', "LINE service response=#{response.inspect}")
     end
 
-    # container = result[:content]
-    # mid = container[:from]
-    
-    # type = container[:contentType]
-    # unless type == 1
-    #   # Not text message
-    #   render json: [], status: 470
-    # end
-
-    # text = container[:text]
-
-    # client = LineClient.new(CHANNEL_ID, CHANNEL_SECRET, CHANNEL_MID, OUTBOUND_PROXY)
-    # res = client.send([mid], text)
-
-    # if res.status == 200
-    #   info(:status, {success: res})
-    # else
-    #   info(:status, {fail: res})
-    # end
     render json: [], status: :ok
   end
 
   private
-  # LINEからのアクセスか確認.
-  # 認証に成功すればtrueを返す。
-  # ref) https://developers.line.me/bot-api/getting-started-with-bot-api-trial#signature_validation
+  # LINE Request Validation
+  #   info: https://developers.line.me/bot-api/getting-started-with-bot-api-trial#signature_validation
   def is_validate_signature
     signature = request.headers["X-LINE-ChannelSignature"]
     http_request_body = request.raw_post

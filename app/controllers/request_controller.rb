@@ -23,7 +23,7 @@ class RequestController < ApplicationController
       unless model.content.contentType == 1
         next
       end
-      post(model.content.from, model.content.text)
+      post([model.content.from], model.content.text)
     end
 
     # container = result[:content]

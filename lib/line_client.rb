@@ -1,7 +1,7 @@
 require "faraday"
 require "faraday_middleware"
 require "json"
-require "pp"
+#require "pp"
 
 # class LineClient
 #   module ContentType
@@ -67,6 +67,7 @@ module LineClient
   include LabelLogger
   
   END_POINT = "https://trialbot-api.line.me"
+  #END_POINT = "https://api.line.me"
   TO_CHANNEL = 1383378250 # this is fixed value
   EVENT_TYPE = "138311608800106203" # this is fixed value
 
@@ -75,36 +76,38 @@ module LineClient
   CHANNEL_MID = ENV['LINE_CHANNEL_MID']
   OUTBOUND_PROXY = ENV['FIXIE_URL']
 
-  def post(line_ids, text)
-    debug('LineClient#post', line_ids.inspect + ', ' + text.inspect)
+  def post(to, text)
+    debug('LineClient#post', to.inspect + ', ' + text.inspect)
     
-    client = Faraday.new(:url => END_POINT) do |conn|
-      conn.request :json
-      conn.response :json, :content_type => /\bjson$/
-      conn.adapter Faraday.default_adapter
-      conn.proxy OUTBOUND_PROXY
+    connection = Faraday.new(:url => END_POINT) do | builder |
+      builder.request :json
+      builder.response :json, :content_type => /\bjson$/
+      builder.adapter Faraday.default_adapter
+      builder.proxy OUTBOUND_PROXY
     end
 
-    debug('LineClient#post', client.inspect)
+    debug('LineClient#post', connection.inspect)
 
-    client.post do |request|
+    response = connection.post do | request |
       request.url '/v1/events'
       request.headers = {
-          'Content-type' => 'application/json; charset=UTF-8',
-          'X-Line-ChannelID' => CHANNEL_ID,
-          'X-Line-ChannelSecret' => CHANNEL_SECRET,
-          'X-Line-Trusted-User-With-ACL' => CHANNEL_MID
+        'Content-type' => 'application/json; charset=UTF-8',
+        'X-Line-ChannelID' => CHANNEL_ID,
+        'X-Line-ChannelSecret' => CHANNEL_SECRET,
+        'X-Line-Trusted-User-With-ACL' => CHANNEL_MID
       }
       request.body = {
-        to: line_ids,
-        content: {
-            contentType: 1,
-            toType: 1,
-            text: text
-        },
+        to: to,
         toChannel: TO_CHANNEL,
-        eventType: EVENT_TYPE
+        eventType: EVENT_TYPE,
+        content: {
+          contentType: 1,
+          toType: 1,
+          text: text
+        }
       }
     end
+    
+    debug('LineClient#post', response.inspect)
   end
 end

@@ -64,6 +64,8 @@ require "pp"
 # end
 
 module LineClient
+  include LabelLogger
+  
   END_POINT = "https://trialbot-api.line.me"
   TO_CHANNEL = 1383378250 # this is fixed value
   EVENT_TYPE = "138311608800106203" # this is fixed value
@@ -74,12 +76,16 @@ module LineClient
   OUTBOUND_PROXY = ENV['FIXIE_URL']
 
   def post(line_ids, text)
+    debug('LineClient#post', line_ids.inspect + ', ' + text.inspect)
+    
     client = Faraday.new(:url => END_POINT) do |conn|
       conn.request :json
       conn.response :json, :content_type => /\bjson$/
       conn.adapter Faraday.default_adapter
       conn.proxy OUTBOUND_PROXY
     end
+
+    debug('LineClient#post', client.inspect)
 
     client.post do |request|
       request.url '/v1/events'

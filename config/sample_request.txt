@@ -1,27 +1,33 @@
 {
   "result": [
     {
-      "content": {
-        "text": "Hello, Business Connect Server!",
-        "location": null,
-        "id": "325708",
-        "contentType": 1,
-        "from": "uff2aec188e58752ee1fb0f9507c6529a",
-        "createdTime": 1332394961610,
-        "to": [
-          "u0a556cffd4da0dd89c94fb36e36e1cdc"
-        ],
-        "toType": 1,
-        "contentMetadata": null
-      },
-      "id": "ABCDEF-12345678901",
-      "eventType": "138311609000106303",
-      "toChannel": 1441301333,
+      "toChannel": 1472459354,
       "to": [
-        "u0cc15697597f61dd8b01cea8b027050e"
+        "ua6f0a1cc54a6aaa9339d3e5e093fc735"
       ],
-      "fromChannel": "1341301815",
-      "from": "u2ddf2eb3c959e561f6c9fa2ea732e7eb8"
+      "id": "WB1521-3581953996",
+      "fromChannel": 1341301815,
+      "from": "u206d25c2ea6bd87c17655609a1c37cb8",
+      "eventType": "138311609000106303",
+      "createdTime": 1467784706827,
+      "content": {
+        "seq": null,
+        "contentType": 1,
+        "deliveredTime": 0,
+        "toType": 1,
+        "createdTime": 1467784706808,
+        "from": "uaaa3ca25c45b213129c868d9f87921c6",
+        "location": null,
+        "id": "4566907221572",
+        "to": [
+          "ua6f0a1cc54a6aaa9339d3e5e093fc735"
+        ],
+        "text": "Hello",
+        "contentMetadata": {
+          "SKIP_BADGE_COUNT": "true",
+          "AT_RECV_MODE": "2"
+        }
+      }
     }
   ]
 }

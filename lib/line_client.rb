@@ -1,6 +1,3 @@
-#require "faraday"
-#require "faraday_middleware"
-
 module LineClient
   include LabelLogger
   
@@ -43,9 +40,9 @@ module LineClient
         }
       }
     end
-    
-    debug('LineClient#post', "response=#{response.inspect}")
-    return response.status
+
+    error('LineClient#post', "response=#{response.inspect}") unless response.status == 200
+    return response
   end
 end
 

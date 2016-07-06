@@ -49,19 +49,19 @@ require "pp"
 #     res
 #   end
 
-  def send(line_ids, message)
-    post('/v1/events', {
-        to: line_ids,
-        content: {
-            contentType: ContentType::TEXT,
-            toType: ToType::USER,
-            text: message
-        },
-        toChannel: TO_CHANNEL,
-        eventType: EVENT_TYPE
-    })
-  end
-end
+#   def send(line_ids, message)
+#     post('/v1/events', {
+#         to: line_ids,
+#         content: {
+#             contentType: ContentType::TEXT,
+#             toType: ToType::USER,
+#             text: message
+#         },
+#         toChannel: TO_CHANNEL,
+#         eventType: EVENT_TYPE
+#     })
+#   end
+# end
 
 module LineClient
   END_POINT = "https://trialbot-api.line.me"

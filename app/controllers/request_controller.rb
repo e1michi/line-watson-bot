@@ -50,7 +50,6 @@ class RequestController < ApplicationController
   # LINE Request Validation
   #   info: https://developers.line.me/bot-api/getting-started-with-bot-api-trial#signature_validation
   def is_validate_signature
-    debug('RequestController#is_validate_signature', '')
     signature = request.headers["X-LINE-ChannelSignature"]
     http_request_body = request.raw_post
     hash = OpenSSL::HMAC::digest(OpenSSL::Digest::SHA256.new, CHANNEL_SECRET, http_request_body)

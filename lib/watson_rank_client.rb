@@ -18,9 +18,16 @@ module WatsonRankClient
       faraday.adapter Faraday.default_adapter
     end
 
+    if text =~ /^@@/
+      method = 'fcselect'
+      text[0, 2] = ''
+    else
+      method = 'select'
+    end
+    debug('WatsonRankClient#get', "method=#{method}")
+    
     response = connection.get do | request |
-      request.url "/#{SERVICE_NAME}/api/v1/solr_clusters/#{CLUSTER_ID}/solr/example_collection/select"
-      #request.url "/#{SERVICE_NAME}/api/v1/solr_clusters/#{CLUSTER_ID}/solr/example_collection/fcselect"
+      request.url "/#{SERVICE_NAME}/api/v1/solr_clusters/#{CLUSTER_ID}/solr/example_collection/#{method}"
       request.params[:ranker_id] = RANKER_ID
       request.params[:q] = text
       request.params[:fl] = 'id,body'

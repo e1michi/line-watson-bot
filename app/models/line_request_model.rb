@@ -6,7 +6,7 @@ class LineRequestModel
   validates :id, presence: true
   
   def initialize(data)
-    info('LineRequestModel#initialize', "data=#{data.inspect}")
+    debug('LineRequestModel#initialize', "data=#{data.inspect}")
     @from = data[:from]
     @fromChannel = data[:fromChannel]
     @to = data[:to]

@@ -6,7 +6,7 @@ class LineContentModel
   validates :id, presence: true
   
   def initialize(content)
-    info('LineContentModel#initialize', "content=#{content.inspect}")
+    debug('LineContentModel#initialize', "content=#{content.inspect}")
     @location = content[:location]
     @id = content[:id]
     @contentType = content[:contentType]

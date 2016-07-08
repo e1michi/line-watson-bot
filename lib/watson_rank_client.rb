@@ -9,7 +9,7 @@ module WatsonRankClient
   RANKER_ID = ENV['WATSON_RANKER_ID']
   
   def get(text)
-    debug('WatsonRankClient#get', "text=#{text.inspect}")
+    info('WatsonRankClient#get', "text=#{text.inspect}")
     
     connection = Faraday.new(:url => END_POINT) do | faraday |
       faraday.basic_auth USERNAME, PASSWORD

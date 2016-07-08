@@ -12,7 +12,7 @@ module LineClient
   OUTBOUND_PROXY = ENV['FIXIE_URL']
 
   def post(to, text)
-    debug('LineClient#post', "to=#{to.inspect}, text=#{text.inspect}")
+    info('LineClient#post', "to=#{to.inspect}, text=#{text.inspect}")
     
     connection = Faraday.new(:url => END_POINT) do | builder |
       builder.request :json

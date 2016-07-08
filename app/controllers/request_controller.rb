@@ -1,5 +1,3 @@
-#require 'pp'
-
 class RequestController < ApplicationController
   include LineClient
   include WatsonRankClient

@@ -28,7 +28,6 @@ class RequestController < ApplicationController
         body = response.body
         #debug('RequestController#callback', "body=#{PP.pp(body, '')}")
         if body['response']['numFound'] > 0
-          info('RequestController#callback', "numFound=#{body['response']['numFound']}")
           text = body['response']['docs'][0]['body'][0]
         else
           text = '答えが見つかりませんでした。'

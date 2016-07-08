@@ -34,8 +34,13 @@ module WatsonRankClient
       request.params[:rows] = 3
       request.params[:wt] = 'json'
     end
+
+    if response.status == 200   
+      info('WatsonRankClient#get', "numFound=#{response['body']['response']['numFound']}")
+    else
+      error('WatsonRankClient#get', "response=#{response.inspect}")
+    end
     
-    error('WatsonRankClient#get', "response=#{response.inspect}") unless response.status == 200
     return response
   end
 end

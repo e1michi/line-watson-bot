@@ -24,6 +24,7 @@ module WatsonRankClient
       request.params[:ranker_id] = RANKER_ID
       request.params[:q] = text
       request.params[:fl] = 'id,body'
+      request.params[:rows] = 3
       request.params[:wt] = 'json'
     end
     

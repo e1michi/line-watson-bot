@@ -24,8 +24,7 @@ module WatsonRankClient
     else
       method = 'select'
     end
-    debug('WatsonRankClient#get', "method=#{method}")
-    
+
     response = connection.get do | request |
       request.url "/#{SERVICE_NAME}/api/v1/solr_clusters/#{CLUSTER_ID}/solr/example_collection/#{method}"
       request.params[:ranker_id] = RANKER_ID

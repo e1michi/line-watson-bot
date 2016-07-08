@@ -36,7 +36,7 @@ module WatsonRankClient
     end
 
     if response.status == 200   
-      info('WatsonRankClient#get', "numFound=#{response.body['response']['numFound']}")
+      debug('WatsonRankClient#get', "response=#{response.inspect}")
     else
       error('WatsonRankClient#get', "response=#{response.inspect}")
     end

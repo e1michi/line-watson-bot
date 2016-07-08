@@ -5,8 +5,8 @@ module WatsonRankClient
   USERNAME = "ee04259f-11ea-4cb5-8f17-0871f4b2d6b8"
   PASSWORD = "GcSg6QaIwEKt"
   SERVICE_NAME = "retrieve-and-rank"
-  CLUSTER_ID = "scc0e46158_449c_4f7c_b2ad_93e1adef3fe5"
-  RANKER_ID = "3b140ax14-rank-9815"
+  CLUSTER_ID = ENV['WATSON_CLUSTER_ID']
+  RANKER_ID = ENV['WATSON_RANKER_ID']
   
   def get(text)
     debug('WatsonRankClient#get', "text=#{text.inspect}")

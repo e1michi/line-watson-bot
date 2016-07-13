@@ -27,7 +27,9 @@ module WatsonRankClient
 
     response = connection.get do | request |
       request.url "/#{SERVICE_NAME}/api/v1/solr_clusters/#{CLUSTER_ID}/solr/example_collection/#{method}"
-      request.params[:ranker_id] = RANKER_ID
+      if method == 'fcselect'
+        request.params[:ranker_id] = RANKER_ID
+      end
       request.params[:q] = text
       request.params[:fl] = 'id,body'
       request.params[:rows] = 3

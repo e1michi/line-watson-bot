@@ -23,10 +23,8 @@ class RequestController < ApplicationController
       
       # Work with Watson
       response = get(model.content.text)
-      #debug('RequestController#callback', "response=#{PP.pp(response, '')}")
       if response.status == 200
         body = response.body
-        #debug('RequestController#callback', "body=#{PP.pp(body, '')}")
         if body['response']['numFound'] > 0
           text = body['response']['docs'][0]['body'][0]
         else
@@ -38,7 +36,6 @@ class RequestController < ApplicationController
       
       # Send message to LINE service
       response = post(model.content.from, text)
-      #debug('RequestController#callback', "response=#{PP.pp(response, '')}")
     end
 
     render json: [], status: :ok

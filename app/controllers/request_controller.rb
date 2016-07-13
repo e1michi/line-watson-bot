@@ -15,7 +15,6 @@ class RequestController < ApplicationController
     
     params[:result].each do | item |
       model = LineRequestModel.new item
-      #debug('RequestController#callback', "model=#{model.inspect}")
       unless model.content.contentType == 1
         # Unsupported content type
         next

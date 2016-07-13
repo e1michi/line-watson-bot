@@ -1,6 +1,5 @@
 class RequestController < ApplicationController
   include LineClient
-  include WatsonSolrClient
   include WatsonRankClient
   protect_from_forgery :except => [:callback] # For CSRF
 
@@ -26,9 +25,9 @@ class RequestController < ApplicationController
       text = model.content.text;
       if text =~ /^@@/
         text[0, 2] = ''
-        response = WatsonRankClient::get(text)
+        response = WatsonRankClient.get(text)
       else
-        response = WatsonSolrClient::get(text)
+        response = WatsonSolrClient.get(text)
       end
 
       

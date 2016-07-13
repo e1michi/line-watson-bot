@@ -22,7 +22,15 @@ class RequestController < ApplicationController
       end
       
       # Work with Watson
-      response = get(model.content.text)
+      text = model.content.text;
+      if text =~ /^@@/
+        text[0, 2] = ''
+        response = WatsonRankClient::get(text)
+      else
+        response = WatsonSolrClient::get(text)
+      end
+
+      
       if response.status == 200
         body = response.body
         if body['response']['numFound'] > 0

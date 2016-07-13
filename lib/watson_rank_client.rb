@@ -1,47 +1,12 @@
 module WatsonRankClient
-  include LabelLogger
-  
-  END_POINT = "https://gateway.watsonplatform.net"
-  USERNAME = "ee04259f-11ea-4cb5-8f17-0871f4b2d6b8"
-  PASSWORD = "GcSg6QaIwEKt"
-  SERVICE_NAME = "retrieve-and-rank"
-  CLUSTER_ID = ENV['WATSON_CLUSTER_ID']
+  extend WatsonSolrClient
+
   RANKER_ID = ENV['WATSON_RANKER_ID']
-  
-  def get(text)
-    info('WatsonRankClient#get', "text=#{text.inspect}")
-    
-    connection = Faraday.new(:url => END_POINT) do | faraday |
-      faraday.basic_auth USERNAME, PASSWORD
-      faraday.request :url_encoded
-      faraday.response :json, :content_type => /\bjson$/
-      faraday.adapter Faraday.default_adapter
-    end
 
-    if text =~ /^@@/
-      method = 'fcselect'
-      text[0, 2] = ''
-    else
-      method = 'select'
-    end
-
-    response = connection.get do | request |
-      request.url "/#{SERVICE_NAME}/api/v1/solr_clusters/#{CLUSTER_ID}/solr/example_collection/#{method}"
-      if method == 'fcselect'
-        request.params[:ranker_id] = RANKER_ID
-      end
-      request.params[:q] = text
-      request.params[:fl] = 'id,body'
-      request.params[:rows] = 3
-      request.params[:wt] = 'json'
-    end
-
-    if response.status == 200   
-      debug('WatsonRankClient#get', "response=#{response.inspect}")
-    else
-      error('WatsonRankClient#get', "response=#{response.inspect}")
-    end
-    
-    return response
+  private
+  def init(req)
+    req.url "/#{SERVICE_NAME}/api/v1/solr_clusters/#{CLUSTER_ID}/solr/example_collection/fcselect"
+    req.params[:ranker_id] = RANKER_ID
+    return req
   end
 end

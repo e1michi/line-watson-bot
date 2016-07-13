@@ -1,5 +1,6 @@
 class RequestController < ApplicationController
   include LineClient
+  include WatsonSolrClient
   include WatsonRankClient
   protect_from_forgery :except => [:callback] # For CSRF
 

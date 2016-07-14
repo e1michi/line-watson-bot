@@ -1,5 +1,6 @@
 module WatsonSolrClient
   include LabelLogger
+  extend self
   
   END_POINT = "https://gateway.watsonplatform.net"
   USERNAME = "ee04259f-11ea-4cb5-8f17-0871f4b2d6b8"
@@ -34,12 +35,8 @@ module WatsonSolrClient
     return response
   end
   
-  private
   def init(req)
     req.url "/#{SERVICE_NAME}/api/v1/solr_clusters/#{CLUSTER_ID}/solr/example_collection/select"
     return req
   end
-  
-  module_function :get
-  module_function :init
 end

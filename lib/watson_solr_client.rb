@@ -39,4 +39,7 @@ module WatsonSolrClient
     req.url "/#{SERVICE_NAME}/api/v1/solr_clusters/#{CLUSTER_ID}/solr/example_collection/select"
     return req
   end
+  
+  module_function :get
+  module_function :init
 end

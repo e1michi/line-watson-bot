@@ -23,12 +23,12 @@ class RequestController < ApplicationController
       text = model.content.text;
       if text =~ /^@@/
         text[0, 2] = ''
-        response = WatsonRankClient.get(text)
+        client = WatsonRankClient.new
       else
-        response = WatsonSolrClient.get(text)
+        client = WatsonSolrClient.new
       end
+      response = client.get(text)
 
-      
       if response.status == 200
         body = response.body
         if body['response']['numFound'] > 0

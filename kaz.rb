@@ -1,3 +1,5 @@
+require 'pp'
+
 module Debug
 	def info(obj)
 		puts "BEGIN: #{obj.inspect}"
@@ -40,6 +42,7 @@ include Debug
 #info(Parent)
 #Parent.info('hello')
 Parent.print
+pp Object.new.method
 
 exit
 

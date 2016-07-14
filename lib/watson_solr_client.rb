@@ -1,7 +1,6 @@
-module WatsonSolrClient
+class WatsonSolrClient
   include LabelLogger
-  extend self
-  
+
   END_POINT = "https://gateway.watsonplatform.net"
   USERNAME = "ee04259f-11ea-4cb5-8f17-0871f4b2d6b8"
   PASSWORD = "GcSg6QaIwEKt"
@@ -19,11 +18,7 @@ module WatsonSolrClient
     end
 
     response = connection.get do | request |
-      request = init(request)
-      request.params[:q] = text
-      request.params[:fl] = 'id,body'
-      request.params[:rows] = 3
-      request.params[:wt] = 'json'
+      request = init(request, text)
     end
 
     if response.status == 200   
@@ -35,8 +30,13 @@ module WatsonSolrClient
     return response
   end
   
-  def init(req)
+  private
+  def init(req, text)
     req.url "/#{SERVICE_NAME}/api/v1/solr_clusters/#{CLUSTER_ID}/solr/example_collection/select"
+    req.params[:q] = text
+    req.params[:fl] = 'id,body'
+    req.params[:rows] = 3
+    req.params[:wt] = 'json'
     return req
   end
 end

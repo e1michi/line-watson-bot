@@ -7,6 +7,10 @@ module LabelLogger
     Rails.logger.debug(label('DEBUG', tag) + value)
   end
   
+  def error(tag, value)
+    Rails.logger.error(label('ERROR', tag) + value)
+  end
+  
   private
   def label(type, tag)
     return "  [#{type}] " if tag.nil?

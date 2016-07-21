@@ -2,8 +2,8 @@ class WatsonSolrClient
   include LabelLogger
 
   END_POINT = "https://gateway.watsonplatform.net"
-  USERNAME = "ee04259f-11ea-4cb5-8f17-0871f4b2d6b8"
-  PASSWORD = "GcSg6QaIwEKt"
+  USERNAME = "c5f658b9-2a59-4ff1-9ba6-ef7cb8ce905a"
+  PASSWORD = "pnabcpSMQvAP"
   SERVICE_NAME = "retrieve-and-rank"
   CLUSTER_ID = ENV['WATSON_CLUSTER_ID']
   

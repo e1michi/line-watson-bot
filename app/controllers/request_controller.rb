@@ -13,9 +13,6 @@ class RequestController < ApplicationController
     
     params[:result].each do | item |
       model = LineRequestModel.new item
-      # next unless model.content.contentType == 1
-      # text = model.content.text;
-      
       case model.content.contentType
       when 1 then
         # text message

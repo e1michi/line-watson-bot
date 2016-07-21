@@ -11,16 +11,25 @@ class RequestController < ApplicationController
       end
     end
     
-    
     params[:result].each do | item |
       model = LineRequestModel.new item
-      unless model.content.contentType == 1
+      case model.content.contentType
+      when 1 then
+        # text message
+        text = model.content.text;
+      when 3 then
+        # voice message
+        # work with Watson STT
+        client = WatsonSpeechToTextClient.new
+        response = client.getText(model.content.id)
+        next unless response.status == 200
+        text = response.body
+      else
         # Unsupported content type
         next
       end
       
-      # Work with Watson
-      text = model.content.text;
+      # work with Watson RaR
       if text =~ /^@@/
         text[0, 2] = ''
         client = WatsonRankClient.new

@@ -8,7 +8,7 @@ class WatsonRankClient < WatsonSolrClient
     req.params[:ranker_id] = RANKER_ID
     req.params[:q] = text
     req.params[:fl] = 'id,body'
-    req.params[:rows] = 3
+    req.params[:rows] = 5
     req.params[:wt] = 'json'
     return req
   end

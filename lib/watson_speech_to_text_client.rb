@@ -1,14 +1,14 @@
-class WatsonSolrClient
+class WatsonSpeechToTextClient
   include LabelLogger
 
-  END_POINT = "https://gateway.watsonplatform.net"
-  USERNAME = "ee04259f-11ea-4cb5-8f17-0871f4b2d6b8"
-  PASSWORD = "GcSg6QaIwEKt"
-  SERVICE_NAME = "retrieve-and-rank"
+  END_POINT = "https://stream.watsonplatform.net"
+  USERNAME = "c5f658b9-2a59-4ff1-9ba6-ef7cb8ce905a"
+  PASSWORD = "pnabcpSMQvAP"
+  SERVICE_NAME = "speech-to-text"
   CLUSTER_ID = ENV['WATSON_CLUSTER_ID']
   
-  def get(text)
-    info('WatsonSolrClient#get', "text=#{text.inspect}")
+  def getText(id)
+    info('WatsonSpeechToTextClient#getText', "id=#{id.inspect}")
     
     connection = Faraday.new(:url => END_POINT) do | faraday |
       faraday.basic_auth USERNAME, PASSWORD
@@ -22,9 +22,9 @@ class WatsonSolrClient
     end
 
     if response.status == 200   
-      debug('WatsonSolrClient#get', "response=#{response.inspect}")
+      debug('WatsonSpeechToTextClient#getText', "response=#{response.inspect}")
     else
-      error('WatsonSolrClient#get', "response=#{response.inspect}")
+      error('WatsonSpeechToTextClient#getText', "response=#{response.inspect}")
     end
     
     return response

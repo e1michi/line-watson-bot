@@ -17,7 +17,7 @@ class RequestController < ApplicationController
       when 1 then
         # text message
         text = model.content.text;
-      when 3 then
+      when 4 then
         # voice message
         # work with Watson STT
         client = WatsonSpeechToTextClient.new

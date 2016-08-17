@@ -2,11 +2,11 @@ class WatsonSolrClient
   include LabelLogger
 
   END_POINT = "https://gateway.watsonplatform.net"
-  USERNAME = "c5f658b9-2a59-4ff1-9ba6-ef7cb8ce905a"
-  PASSWORD = "pnabcpSMQvAP"
   SERVICE_NAME = "retrieve-and-rank"
+  USERNAME = ENV['WATSON_USERNAME']
+  PASSWORD = ENV['WATSON_PASSWORD']
   CLUSTER_ID = ENV['WATSON_CLUSTER_ID']
-  
+
   def get(text)
     info('WatsonSolrClient#get', "text=#{text.inspect}")
     

@@ -32,6 +32,7 @@ class WatsonSolrClient
   
   private
   def init(req, text)
+    info('WatsonSolrClient#init', "text=#{text.inspect}")
     req.url "/#{SERVICE_NAME}/api/v1/solr_clusters/#{CLUSTER_ID}/solr/example_collection/select"
     req.params[:q] = text
     req.params[:fl] = 'id,body'

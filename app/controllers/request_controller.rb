@@ -30,12 +30,12 @@ class RequestController < ApplicationController
       end
       
       # work with Watson RaR
-      if text =~ /^@@/
-        text[0, 2] = ''
+#      if text =~ /^@@/
+#        text[0, 2] = ''
         client = WatsonRankClient.new
-      else
-        client = WatsonSolrClient.new
-      end
+#      else
+#        client = WatsonSolrClient.new
+#      end
       response = client.get(text)
 
       if response.status == 200

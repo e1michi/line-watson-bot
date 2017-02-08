@@ -11,7 +11,7 @@ class RequestController < ApplicationController
       end
     end
     
-    params[:result].each do | item |
+    params[:events].each do | item |
       model = LineRequestModel.new item
       case model.content.contentType
       when 1 then

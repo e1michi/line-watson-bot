@@ -3,7 +3,7 @@ module LineClient
   
   END_POINT = "https://api.line.me"
 
-  CHANNEL_ACCESS_TOKEN = ENV['CHANNEL_ACCESS_TOKEN']
+  CHANNEL_ACCESS_TOKEN = ENV['LINE_CHANNEL_ACCESS_TOKEN']
 
   def post(to, text)
     info('LineClient#post', "to=#{to.inspect}, text=#{text.inspect}")

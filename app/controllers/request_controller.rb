@@ -2,6 +2,8 @@ class RequestController < ApplicationController
   include LineClient
   protect_from_forgery :except => [:callback] # For CSRF
 
+  CHANNEL_SECRET = ENV['LINE_CHANNEL_SECRET']
+
   def callback
     # for production
     if Rails.env == 'production'
@@ -60,7 +62,7 @@ class RequestController < ApplicationController
   # LINE Request Validation
   #   info: https://developers.line.me/bot-api/getting-started-with-bot-api-trial#signature_validation
   def is_validate_signature
-    signature = request.headers["X-LINE-ChannelSignature"]
+    signature = request.headers["X-LINE-Signature"]
     http_request_body = request.raw_post
     hash = OpenSSL::HMAC::digest(OpenSSL::Digest::SHA256.new, CHANNEL_SECRET, http_request_body)
     signature_answer = Base64.strict_encode64(hash)

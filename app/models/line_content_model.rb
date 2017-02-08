@@ -7,14 +7,8 @@ class LineContentModel
   
   def initialize(content)
     debug('LineContentModel#initialize', "content=#{content.inspect}")
-    @location = content[:location]
+    @type = content[:type]
     @id = content[:id]
-    @contentType = content[:contentType]
-    @from = content[:from]
-    @createdTime = content[:createdTime]
-    @to = content[:to]
-    @toType = content[:toType]
-    @contentMetadata = content[:contentMetadata]
     @text = content[:text]
   end
 end

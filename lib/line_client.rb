@@ -17,7 +17,7 @@ module LineClient
       request.url '/v2/bot/message/push'
       request.headers = {
         'Content-Type' => 'application/json; charset=UTF-8',
-        'Authorization' => "Bearer #{CHANNEL_ACCESS_TOKEN}"
+        'Authorization' => "Bearer #{LINE_CHANNEL_ACCESS_TOKEN}"
       }
       request.body = {
         to: to,

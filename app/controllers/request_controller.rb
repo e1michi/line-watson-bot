@@ -2,8 +2,6 @@ class RequestController < ApplicationController
   include LineClient
   protect_from_forgery :except => [:callback] # For CSRF
 
-  CHANNEL_SECRET = ENV['LINE_CHANNEL_SECRET']
-
   def callback
     # for production
     if Rails.env == 'production'

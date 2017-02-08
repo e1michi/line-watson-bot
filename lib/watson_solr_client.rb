@@ -3,9 +3,6 @@ class WatsonSolrClient
 
   END_POINT = "https://gateway.watson-j.jp"
   SERVICE_NAME = "retrieve-and-rank"
-  USERNAME = ENV['WATSON_USERNAME']
-  PASSWORD = ENV['WATSON_PASSWORD']
-  CLUSTER_ID = ENV['WATSON_CLUSTER_ID']
 
   def get(text)
     info('WatsonSolrClient#get', "text=#{text.inspect}")

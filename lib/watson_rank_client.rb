@@ -1,7 +1,4 @@
 class WatsonRankClient < WatsonSolrClient
-
-  RANKER_ID = ENV['WATSON_RANKER_ID']
-
   private
   def init(req, text)
     info('WatsonRankClient#init', "text=#{text.inspect}")

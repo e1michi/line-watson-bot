@@ -13,11 +13,11 @@ class RequestController < ApplicationController
     
     params[:events].each do | item |
       model = LineRequestModel.new item
-      case model.content.contentType
-      when 1 then
+      case model.content.type
+      when 'text' then
         # text message
         text = model.content.text;
-      when 4 then
+      when 'voice' then
         # voice message
         # work with Watson STT
         client = WatsonSpeechToTextClient.new
@@ -50,7 +50,7 @@ class RequestController < ApplicationController
       end
       
       # Send message to LINE service
-      response = post(model.content.from, text)
+      response = post(model.userId, text)
     end
 
     render json: [], status: :ok

@@ -22,11 +22,11 @@ module LineClient
         'Authorization' => "Bearer #{CHANNEL_ACCESS_TOKEN}"
       }
       request.body = {
-        to: to,
-        messages: {
+        to: [to],
+        messages: [{
           type: 'text',
           text: text
-        }
+        }]
       }
     end
 

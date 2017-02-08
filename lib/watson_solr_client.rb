@@ -1,7 +1,7 @@
 class WatsonSolrClient
   include LabelLogger
 
-  END_POINT = "https://gateway.watsonplatform.net"
+  END_POINT = "https://gateway.watson-j.jp"
   SERVICE_NAME = "retrieve-and-rank"
   USERNAME = ENV['WATSON_USERNAME']
   PASSWORD = ENV['WATSON_PASSWORD']
@@ -33,7 +33,7 @@ class WatsonSolrClient
   private
   def init(req, text)
     info('WatsonSolrClient#init', "text=#{text.inspect}")
-    req.url "/#{SERVICE_NAME}/api/v1/solr_clusters/#{CLUSTER_ID}/solr/example_collection/select"
+    req.url "/#{SERVICE_NAME}/api/v1/solr_clusters/#{CLUSTER_ID}/solr/universe_collection/select"
     req.params[:q] = text
     req.params[:fl] = 'id,body'
     req.params[:rows] = 5

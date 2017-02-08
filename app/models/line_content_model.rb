@@ -1,7 +1,7 @@
 class LineContentModel
   include LabelLogger
   include ActiveModel::Model
-  attr_accessor :location, :id, :contentType, :from, :createdTime, :to, :toType, :contentMetadata, :text
+  attr_accessor :type, :id, :text
   
   validates :id, presence: true
   

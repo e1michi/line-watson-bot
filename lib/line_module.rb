@@ -7,7 +7,7 @@ module LineModule
     validates :userId, presence: true
   
     def initialize(event)
-      debug("#{self.class}##{__method__}", "event=#{event.inspect}")
+      debug("event=#{event.inspect}")
       
       @type = event[:type]
       @replyToken = event[:replyToken]

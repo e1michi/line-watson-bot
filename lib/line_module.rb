@@ -24,7 +24,7 @@ module LineModule
     validates :id, presence: true
   
     def initialize(message)
-      debug("#{self.class}##{__method__}", "message=#{message.inspect}")
+      debug("message=#{message.inspect}")
       
       @type = message[:type]
       @id = message[:id]
@@ -36,14 +36,14 @@ module LineModule
     include LabelLogger
 
     def initialize(endpoint, token)
-      debug("#{self.class}##{__method__}", "endpoint=#{endpoint.inspect}, token=#{token.inspect}")
+      debug("endpoint=#{endpoint.inspect}, token=#{token.inspect}")
       
       @endpoint = endpoint
       @token = token
     end
 
     def post(to, text)
-      debug("#{self.class}##{__method__}", "to=#{to.inspect}, text=#{text.inspect}")
+      debug("to=#{to.inspect}, text=#{text.inspect}")
     
       connection = Faraday.new(:url => @endpoint) do | builder |
         builder.request :json
@@ -66,7 +66,7 @@ module LineModule
         }
       end
 
-      error("#{self.class}##{__method__}", "response=#{response.inspect}") unless response.status == 200
+      error("response=#{response.inspect}") unless response.status == 200
       return response
     end
   end

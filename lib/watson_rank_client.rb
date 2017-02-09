@@ -1,7 +1,8 @@
 class WatsonRankClient < WatsonSolrClient
   private
   def init(req, text)
-    info('WatsonRankClient#init', "text=#{text.inspect}")
+    debug("text=#{text.inspect}")
+    
     req.url "/#{SERVICE_NAME}/api/v1/solr_clusters/#{WATSON_CLUSTER_ID}/solr/universe_collection/fcselect"
     req.params[:ranker_id] = WATSON_RANKER_ID
     req.params[:q] = text

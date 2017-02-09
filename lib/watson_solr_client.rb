@@ -5,7 +5,7 @@ class WatsonSolrClient
   SERVICE_NAME = "retrieve-and-rank"
 
   def get(text)
-    info("text=#{text.inspect}")
+    debug("text=#{text.inspect}")
     
     connection = Faraday.new(:url => END_POINT) do | faraday |
       faraday.basic_auth WATSON_USERNAME, WATSON_PASSWORD
@@ -29,8 +29,6 @@ class WatsonSolrClient
   
   private
   def init(req, text)
-    info("text=#{text.inspect}")
-    
     req.url "/#{SERVICE_NAME}/api/v1/solr_clusters/#{WATSON_CLUSTER_ID}/solr/universe_collection/select"
     req.params[:q] = text
     req.params[:fl] = 'id,body'

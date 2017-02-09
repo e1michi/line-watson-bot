@@ -8,7 +8,7 @@ class WatsonSpeechToTextClient
   CLUSTER_ID = ENV['WATSON_CLUSTER_ID']
   
   def getText(id)
-    info('WatsonSpeechToTextClient#getText', "id=#{id.inspect}")
+    debug("id=#{id.inspect}")
     
     connection = Faraday.new(:url => END_POINT) do | faraday |
       faraday.basic_auth USERNAME, PASSWORD
@@ -22,9 +22,9 @@ class WatsonSpeechToTextClient
     end
 
     if response.status == 200   
-      debug('WatsonSpeechToTextClient#getText', "response=#{response.inspect}")
+      debug("response=#{response.inspect}")
     else
-      error('WatsonSpeechToTextClient#getText', "response=#{response.inspect}")
+      error("response=#{response.inspect}")
     end
     
     return response

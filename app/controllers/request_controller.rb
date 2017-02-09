@@ -1,5 +1,5 @@
 class RequestController < ApplicationController
-  include LineClient
+  # include LineClient
   protect_from_forgery :except => [:callback] # For CSRF
 
   def callback
@@ -50,7 +50,8 @@ class RequestController < ApplicationController
       end
       
       # Send message to LINE service
-      response = post(model.userId, text)
+      l = LineClient.new('https://api.line.me', LINE_CHANNEL_ACCESS_TOKEN)
+      response = l.post(model.userId, text)
     end
 
     render json: [], status: :ok

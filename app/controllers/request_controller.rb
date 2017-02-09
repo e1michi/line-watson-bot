@@ -12,7 +12,7 @@ class RequestController < ApplicationController
     end
     
     params[:events].each do | item |
-      model = LineRequestModel.new item
+      model = LineModule::RequestModel.new item
       case model.content.type
       when 'text' then
         # text message
@@ -50,7 +50,7 @@ class RequestController < ApplicationController
       end
       
       # Send message to LINE service
-      l = Line::LineClient.new(LINE_ENDPOINT, LINE_CHANNEL_ACCESS_TOKEN)
+      l = LineModule::PushClient.new(LINE_ENDPOINT, LINE_CHANNEL_ACCESS_TOKEN)
       response = l.post(model.userId, text)
     end
 

@@ -31,8 +31,8 @@ class RequestController < ApplicationController
         text = model.message.text;
       when 'audio' then
         # 音声データはWatson STT経由でテキストを抽出
-        client = WatsonModule::SpeechToTextClient.new
-        response = client.getText(model.message.id)
+        sttc = WatsonModule::SpeechToTextClient.new
+        response = sttc.getText(model.message.id)
         next unless response.status == 200
         text = response.body
       else
@@ -40,8 +40,8 @@ class RequestController < ApplicationController
       end
 
       # Watson R&Rの呼び出し
-      client = WatsonModule::RetrieveAndRankClient.new
-      response = client.get(text)
+      rarc = WatsonModule::RetrieveAndRankClient.new(WATSON_ENDPOINT, WATSON_USERNAME, WATSON_PASSWORD, WATSON_CLUSTER_ID, WATSON_RANKER_ID)
+      response = rarc.get(text)
 
       if response.status == 200
         body = response.body

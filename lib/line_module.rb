@@ -7,7 +7,7 @@ module LineModule
     validates :id, presence: true
   
     def initialize(data)
-      debug("#{self.class}##{__method__}", "data=#{data.inspect}")
+      debug("#{self.class.name}##{__method__}", "data=#{data.inspect}")
       @type = data[:type]
       @replyToken = data[:replyToken]
       @userId = data[:source][:userId]

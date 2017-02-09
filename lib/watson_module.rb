@@ -8,23 +8,24 @@ module WatsonModule
   class ApacheSolrClient
     include LabelLogger
 
-    END_POINT = "https://gateway.watson-j.jp"
-    SERVICE_NAME = "retrieve-and-rank"
-
+    def initialize(endpoint, username, password, clusterid)
+      @endpoint = endpoint
+      @username = username
+      @password = password
+      @clusterid = clusterid
+    end
+    
     def get(text)
       debug("text=#{text.inspect}")
     
-      connection = Faraday.new(:url => END_POINT) do | faraday |
-        faraday.basic_auth WATSON_USERNAME, WATSON_PASSWORD
+      connection = Faraday.new(:url => @endpoint) do | faraday |
+        faraday.basic_auth @username, @password
         faraday.request :url_encoded
         faraday.response :json, :content_type => /\bjson$/
         faraday.adapter Faraday.default_adapter
       end
 
-      response = connection.get do | request |
-        request = init(request, text)
-      end
-
+      response = send_request(connection)
       if response.status == 200   
         debug("response=#{response.inspect}")
       else
@@ -33,15 +34,17 @@ module WatsonModule
     
       return response
     end
-  
-    private
-    def init(req, text)
-      req.url "/#{SERVICE_NAME}/api/v1/solr_clusters/#{WATSON_CLUSTER_ID}/solr/universe_collection/select"
-      req.params[:q] = text
-      req.params[:fl] = 'id,body'
-      req.params[:rows] = 5
-      req.params[:wt] = 'json'
-      return req
+
+    def send_request(connection, text)
+      response = connection.get do | request |
+        request.url "/retrieve-and-rank/api/v1/solr_clusters/#{@clusterid}/solr/universe_collection/select"
+        request.params[:q] = text
+        request.params[:fl] = 'id,body'
+        request.params[:rows] = 5
+        request.params[:wt] = 'json'
+      end
+
+      return response
     end
   end
 
@@ -49,15 +52,22 @@ module WatsonModule
   # R&Rの実装クラス
   #
   class RetrieveAndRankClient < ApacheSolrClient
-    private
-    def init(req, text)
-      req.url "/#{SERVICE_NAME}/api/v1/solr_clusters/#{WATSON_CLUSTER_ID}/solr/universe_collection/fcselect"
-      req.params[:ranker_id] = WATSON_RANKER_ID
-      req.params[:q] = text
-      req.params[:fl] = 'id,body'
-      req.params[:rows] = 5
-      req.params[:wt] = 'json'
-      return req
+    def initialize(endpoint, username, password, clusterid, rankerid)
+      super(endpoint, username, password, clusterid)
+      @rankerid = rankerid
+    end
+
+    def send_request(connection, text)
+      response = connection.get do | request |
+        request.url "/retrieve-and-rank/api/v1/solr_clusters/#{@clusterid}/solr/universe_collection/fcselect"
+        request.params[:ranker_id] = @rankerid
+        request.params[:q] = text
+        request.params[:fl] = 'id,body'
+        request.params[:rows] = 5
+        request.params[:wt] = 'json'
+      end
+
+      return response
     end
   end
 

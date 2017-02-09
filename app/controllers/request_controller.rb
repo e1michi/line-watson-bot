@@ -1,5 +1,3 @@
-require 'LineClient'
-
 class RequestController < ApplicationController
   # include LineClient
   protect_from_forgery :except => [:callback] # For CSRF
@@ -52,7 +50,7 @@ class RequestController < ApplicationController
       end
       
       # Send message to LINE service
-      l = LineClient.new(LINE_ENDPOINT, LINE_CHANNEL_ACCESS_TOKEN)
+      l = Line::LineClient.new(LINE_ENDPOINT, LINE_CHANNEL_ACCESS_TOKEN)
       response = l.post(model.userId, text)
     end
 

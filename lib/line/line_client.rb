@@ -1,9 +1,8 @@
 class LineClient
   include LabelLogger
   
-  private
-  def init(endpoint, token)
-    info('LineClient#init', "endpoint=#{endpoint.inspect}, token=#{token.inspect}")
+  def initialize(endpoint, token)
+    info('aLineClient#initialize', "endpoint=#{endpoint.inspect}, token=#{token.inspect}")
     @endpoint = endpoint
     @token = token
   end

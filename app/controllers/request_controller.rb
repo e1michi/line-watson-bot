@@ -1,5 +1,3 @@
-#require 'LineClient'
-
 class RequestController < ApplicationController
   # include LineClient
   protect_from_forgery :except => [:callback] # For CSRF

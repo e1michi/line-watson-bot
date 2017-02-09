@@ -1,34 +1,46 @@
+#
+# LINE Messaging API Request Controller
+#
 class RequestController < ApplicationController
+  #
+  # callback以外の処理を除外
+  #
   protect_from_forgery :except => [:callback] # For CSRF
 
+  #
+  # Webhook処理
+  #
   def callback
-    # for production
+    # リクエスト元のチェック（プロダクション環境時のみ）
     if Rails.env == 'production'
-      # Reject request comes from other services
       unless is_validate_signature
+        # 他サイトからのリクエストを除外
         render json: [], status: 470
       end
     end
-    
+
+    # リクエストデータ処理（複数）
     params[:events].each do | item |
+      # イベントモデルの生成
       model = LineModule::EventModel.new item
+
+      # テキストの抽出
       case model.message.type
       when 'text' then
-        # text message
+        # テキストの場合はそのまま
         text = model.message.text;
       when 'audio' then
-        # audio message
-        # work with Watson STT
-        client = WatsonSpeechToTextClient.new
+        # 音声データはWatson STT経由でテキストを抽出
+        client = WatsonModule::SpeechToTextClient.new
         response = client.getText(model.message.id)
         next unless response.status == 200
         text = response.body
       else
-        # Unsupported content type
         next
       end
-      
-      client = WatsonRankClient.new
+
+      # Watson R&Rの呼び出し
+      client = WatsonModule::RetrieveAndRankClient.new
       response = client.get(text)
 
       if response.status == 200
@@ -42,16 +54,17 @@ class RequestController < ApplicationController
         text = 'エラーが起きました。'
       end
       
-      # Send message to LINE service
+      # LINEサービスへのテキスト送信
       pc = LineModule::PushClient.new(LINE_ENDPOINT, LINE_CHANNEL_ACCESS_TOKEN)
       response = pc.post(model.userId, text)
     end
 
+    # 常に正常ステータスを返す（仕様）
     render json: [], status: :ok
   end
 
   private
-  # LINE Request Validation
+  # リクエストの整合性チェック
   #   info: https://developers.line.me/bot-api/getting-started-with-bot-api-trial#signature_validation
   def is_validate_signature
     signature = request.headers["X-LINE-Signature"]

@@ -1,4 +1,10 @@
+#
+# LINE Messaging APIに関するモジュール
+#
 module LineModule
+  #
+  # イベントモデル
+  #
   class EventModel
     include LabelLogger
     include ActiveModel::Model
@@ -16,6 +22,9 @@ module LineModule
     end
   end
 
+  #
+  # メッセージモデル
+  #
   class MessageModel
     include LabelLogger
     include ActiveModel::Model
@@ -32,6 +41,9 @@ module LineModule
     end
   end
 
+  #
+  # PushMessageの実装クラス
+  #
   class PushClient
     include LabelLogger
 

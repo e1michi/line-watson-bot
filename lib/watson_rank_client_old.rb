@@ -1,3 +1,6 @@
+#
+# Watson R&Rの実装クラス
+#
 class WatsonRankClient < WatsonSolrClient
   private
   def init(req, text)

@@ -1,7 +1,6 @@
 module LineModule
-  include LabelLogger
-
   class RequestModel
+    include LabelLogger
     include ActiveModel::Model
     attr_accessor :type, :replyToken, :userId, :content
   
@@ -17,6 +16,7 @@ module LineModule
   end
 
   class ContentModel
+    include LabelLogger
     include ActiveModel::Model
     attr_accessor :type, :id, :text
   
@@ -31,6 +31,8 @@ module LineModule
   end
 
   class PushClient
+    include LabelLogger
+
     def initialize(endpoint, token)
       info('aPushClient#initialize', "endpoint=#{endpoint.inspect}, token=#{token.inspect}")
       @endpoint = endpoint

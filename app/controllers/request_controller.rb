@@ -1,4 +1,4 @@
-require 'LineClient'
+#require 'LineClient'
 
 class RequestController < ApplicationController
   # include LineClient

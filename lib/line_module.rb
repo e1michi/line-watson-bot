@@ -2,20 +2,21 @@ module LineModule
   class EventModel
     include LabelLogger
     include ActiveModel::Model
-    attr_accessor :type, :replyToken, :userId, :content
+    attr_accessor :type, :replyToken, :userId, :message
   
-    validates :id, presence: true
+    validates :userId, presence: true
   
     def initialize(event)
       debug("#{self.class}##{__method__}", "event=#{event.inspect}")
+      
       @type = event[:type]
       @replyToken = event[:replyToken]
       @userId = event[:source][:userId]
-      @message = TextModel.new event[:message]
+      @message = MessageModel.new event[:message]
     end
   end
 
-  class TextModel
+  class MessageModel
     include LabelLogger
     include ActiveModel::Model
     attr_accessor :type, :id, :text
@@ -24,6 +25,7 @@ module LineModule
   
     def initialize(message)
       debug("#{self.class}##{__method__}", "message=#{message.inspect}")
+      
       @type = message[:type]
       @id = message[:id]
       @text = message[:text]
@@ -34,13 +36,14 @@ module LineModule
     include LabelLogger
 
     def initialize(endpoint, token)
-      info("#{self.class}##{__method__}", "endpoint=#{endpoint.inspect}, token=#{token.inspect}")
+      debug("#{self.class}##{__method__}", "endpoint=#{endpoint.inspect}, token=#{token.inspect}")
+      
       @endpoint = endpoint
       @token = token
     end
 
     def post(to, text)
-      info("#{self.class}##{__method__}", "to=#{to.inspect}, text=#{text.inspect}")
+      debug("#{self.class}##{__method__}", "to=#{to.inspect}, text=#{text.inspect}")
     
       connection = Faraday.new(:url => @endpoint) do | builder |
         builder.request :json

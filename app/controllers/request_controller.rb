@@ -13,7 +13,7 @@ class RequestController < ApplicationController
     
     params[:events].each do | item |
       model = LineModule::EventModel.new item
-      case model.type
+      case model.message.type
       when 'text' then
         # text message
         text = model.message.text;

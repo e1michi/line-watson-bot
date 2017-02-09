@@ -1,4 +1,4 @@
-class LineClient
+class Line::LineClient
   include LabelLogger
   
   def initialize(endpoint, token)

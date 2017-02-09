@@ -8,11 +8,12 @@ module WatsonModule
   class ApacheSolrClient
     include LabelLogger
 
-    def initialize(endpoint, username, password, clusterid)
+    def initialize(endpoint, username, password, clusterid, rankerid)
       @endpoint = endpoint
       @username = username
       @password = password
       @clusterid = clusterid
+      @rankerid = rankerid
     end
     
     def get(text)
@@ -52,14 +53,9 @@ module WatsonModule
   # R&Rの実装クラス
   #
   class RetrieveAndRankClient < ApacheSolrClient
-    def initialize(endpoint, username, password, clusterid, rankerid)
-      super()
-      @endpoint = endpoint
-      @username = username
-      @password = password
-      @clusterid = clusterid
-      @rankerid = rankerid
-    end
+    # def initialize(endpoint, username, password, clusterid, rankerid)
+    #   super
+    # end
 
     def send_request(connection, text)
       response = connection.get do | request |

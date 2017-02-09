@@ -12,16 +12,16 @@ class RequestController < ApplicationController
     end
     
     params[:events].each do | item |
-      model = LineModule::RequestModel.new item
-      case model.content.type
+      model = LineModule::EventModel.new item
+      case model.type
       when 'text' then
         # text message
-        text = model.content.text;
-      when 'voice' then
-        # voice message
+        text = model.message.text;
+      when 'audio' then
+        # audio message
         # work with Watson STT
         client = WatsonSpeechToTextClient.new
-        response = client.getText(model.content.id)
+        response = client.getText(model.message.id)
         next unless response.status == 200
         text = response.body
       else
@@ -29,13 +29,7 @@ class RequestController < ApplicationController
         next
       end
       
-      # work with Watson RaR
-#      if text =~ /^@@/
-#        text[0, 2] = ''
-        client = WatsonRankClient.new
-#      else
-#        client = WatsonSolrClient.new
-#      end
+      client = WatsonRankClient.new
       response = client.get(text)
 
       if response.status == 200
@@ -50,8 +44,8 @@ class RequestController < ApplicationController
       end
       
       # Send message to LINE service
-      l = LineModule::PushClient.new(LINE_ENDPOINT, LINE_CHANNEL_ACCESS_TOKEN)
-      response = l.post(model.userId, text)
+      pc = LineModule::PushClient.new(LINE_ENDPOINT, LINE_CHANNEL_ACCESS_TOKEN)
+      response = pc.post(model.userId, text)
     end
 
     render json: [], status: :ok

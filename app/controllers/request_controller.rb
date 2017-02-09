@@ -50,7 +50,7 @@ class RequestController < ApplicationController
       end
       
       # Send message to LINE service
-      l = LineClient.new('https://api.line.me', LINE_CHANNEL_ACCESS_TOKEN)
+      l = LineClient.new(LINE_ENDPOINT, LINE_CHANNEL_ACCESS_TOKEN)
       response = l.post(model.userId, text)
     end
 

@@ -6,7 +6,7 @@ module LineModule
   # イベントモデル
   #
   class EventModel
-    include LabelLogger
+    include LoggerModule
     include ActiveModel::Model
     attr_accessor :type, :replyToken, :userId, :message
   
@@ -26,7 +26,7 @@ module LineModule
   # メッセージモデル
   #
   class MessageModel
-    include LabelLogger
+    include LoggerModule
     include ActiveModel::Model
     attr_accessor :type, :id, :text
   
@@ -45,7 +45,7 @@ module LineModule
   # PushMessageの実装クラス
   #
   class PushClient
-    include LabelLogger
+    include LoggerModule
 
     def initialize(endpoint, token)
       debug("endpoint=#{endpoint.inspect}, token=#{token.inspect}")

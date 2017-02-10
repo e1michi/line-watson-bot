@@ -1,4 +1,4 @@
-module LabelLogger
+module LoggerModule
   def info(text)
     fname = caller(1,1).pop.sub(/^.+`(.+)'$/,'\1')
     Rails.logger.info(label('INFO', "#{self.class}##{fname}") + text)

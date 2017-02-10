@@ -6,7 +6,7 @@ module WatsonModule
   # Apache Solrの実装クラス
   #
   class ApacheSolrClient
-    include LabelLogger
+    include LoggerModule
 
     def initialize(endpoint, username, password, clusterid)
       @endpoint = endpoint
@@ -76,7 +76,7 @@ module WatsonModule
   #   注意：未完成につき動作しません
   #
   class SpeechToTextClient
-    include LabelLogger
+    include LoggerModule
   
     END_POINT = "https://stream.watsonplatform.net"
     USERNAME = "c5f658b9-2a59-4ff1-9ba6-ef7cb8ce905a"

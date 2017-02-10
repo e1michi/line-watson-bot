@@ -40,8 +40,11 @@ class RequestController < ApplicationController
       end
 
       # Watson R&Rの呼び出し
-      rarc = WatsonModule::RetrieveAndRankClient.new(WATSON_ENDPOINT, WATSON_USERNAME, WATSON_PASSWORD, WATSON_CLUSTER_ID, WATSON_RANKER_ID)
-      response = rarc.get(text)
+      rarc = WatsonModule::RetrieveAndRankClient.new(
+        WATSON_ENDPOINT, WATSON_USERNAME, WATSON_PASSWORD,
+        WATSON_CLUSTER_ID, WATSON_RANKER_ID,
+        WATSON_DATA_FIELDS, WATSON_DATA_ROWS)
+      response = rarc.search(text)
 
       if response.status == 200
         body = response.body

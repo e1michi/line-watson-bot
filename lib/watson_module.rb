@@ -8,14 +8,16 @@ module WatsonModule
   class ApacheSolrClient
     include LoggerModule
 
-    def initialize(endpoint, username, password, clusterid)
+    def initialize(endpoint, username, password, clusterid, fields, rows)
       @endpoint = endpoint
       @username = username
       @password = password
       @clusterid = clusterid
+      @fields = fields
+      @rows = rows
     end
     
-    def get(text)
+    def search(text)
       debug("text=#{text.inspect}")
     
       connection = Faraday.new(:url => @endpoint) do | faraday |
@@ -39,8 +41,8 @@ module WatsonModule
       response = connection.get do | request |
         request.url "/retrieve-and-rank/api/v1/solr_clusters/#{@clusterid}/solr/universe_collection/select"
         request.params[:q] = text
-        request.params[:fl] = 'id,body'
-        request.params[:rows] = 5
+        request.params[:fl] = @fields
+        request.params[:rows] = @rows
         request.params[:wt] = 'json'
       end
 
@@ -52,8 +54,8 @@ module WatsonModule
   # R&Rの実装クラス
   #
   class RetrieveAndRankClient < ApacheSolrClient
-    def initialize(endpoint, username, password, clusterid, rankerid)
-      super(endpoint, username, password, clusterid)
+    def initialize(endpoint, username, password, clusterid, rankerid, fields, rows)
+      super(endpoint, username, password, clusterid, fields, rows)
       @rankerid = rankerid
     end
 
@@ -62,8 +64,8 @@ module WatsonModule
         request.url "/retrieve-and-rank/api/v1/solr_clusters/#{@clusterid}/solr/universe_collection/fcselect"
         request.params[:ranker_id] = @rankerid
         request.params[:q] = text
-        request.params[:fl] = 'id,body'
-        request.params[:rows] = 5
+        request.params[:fl] = @fields
+        request.params[:rows] = @rows
         request.params[:wt] = 'json'
       end
 

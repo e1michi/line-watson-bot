@@ -42,6 +42,48 @@ module LineModule
   end
 
   #
+  # ReplyMessageの実装クラス
+  #
+  class ReplyClient
+    include LoggerModule
+
+    def initialize(endpoint, token)
+      debug("endpoint=#{endpoint.inspect}, token=#{token.inspect}")
+      
+      @endpoint = endpoint
+      @token = token
+    end
+
+    def reply_message(to, text)
+      debug("to=#{to.inspect}, text=#{text.inspect}")
+    
+      connection = Faraday.new(:url => @endpoint) do | builder |
+        builder.request :json
+        builder.response :json, :content_type => /\bjson$/
+        builder.adapter Faraday.default_adapter
+      end
+
+      response = connection.post do | request |
+        request.url '/v2/bot/message/reply'
+        request.headers = {
+          'Content-Type' => 'application/json; charset=UTF-8',
+          'Authorization' => "Bearer #{@token}"
+        }
+        request.body = {
+          replyToken: to,
+          messages: [{
+            type: 'text',
+            text: text
+          }]
+        }
+      end
+
+      error("response=#{response.inspect}") unless response.status == 200
+      return response
+    end
+  end
+
+  #
   # PushMessageの実装クラス
   #
   class PushClient

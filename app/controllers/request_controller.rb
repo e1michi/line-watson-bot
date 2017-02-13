@@ -58,8 +58,8 @@ class RequestController < ApplicationController
       end
       
       # LINEサービスへのテキスト送信
-      pc = LineModule::PushClient.new(LINE_ENDPOINT, LINE_CHANNEL_ACCESS_TOKEN)
-      response = pc.post(model.userId, text)
+      rc = LineModule::ReplyClient.new(LINE_ENDPOINT, LINE_CHANNEL_ACCESS_TOKEN)
+      response = rc.reply_message(model.replyToken, text)
     end
 
     # 常に正常ステータスを返す（仕様）

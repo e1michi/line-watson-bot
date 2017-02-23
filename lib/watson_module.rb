@@ -3,21 +3,18 @@
 #
 module WatsonModule
   #
-  # Apache Solrの実装クラス
+  # Watson関連のスーパークラス
   #
-  class ApacheSolrClient
+  class WatsonRoot
     include LoggerModule
 
-    def initialize(endpoint, username, password, clusterid, fields, rows)
+    def initialize(endpoint, username, password)
       @endpoint = endpoint
       @username = username
       @password = password
-      @clusterid = clusterid
-      @fields = fields
-      @rows = rows
     end
     
-    def search(text)
+    def think(text)
       debug("text=#{text.inspect}")
     
       connection = Faraday.new(:url => @endpoint) do | faraday |
@@ -36,6 +33,38 @@ module WatsonModule
     
       return response
     end
+  end
+
+  #
+  # Apache Solrの実装クラス
+  #
+  class ApacheSolrClient < WatsonRoot
+    def initialize(endpoint, username, password, clusterid, fields, rows)
+      super(endpoint, username, password)
+      @clusterid = clusterid
+      @fields = fields
+      @rows = rows
+    end
+    
+    # def search(text)
+    #   debug("text=#{text.inspect}")
+    
+    #   connection = Faraday.new(:url => @endpoint) do | faraday |
+    #     faraday.basic_auth @username, @password
+    #     faraday.request :url_encoded
+    #     faraday.response :json, :content_type => /\bjson$/
+    #     faraday.adapter Faraday.default_adapter
+    #   end
+
+    #   response = send_request(connection, text)
+    #   if response.status == 200   
+    #     debug("response=#{response.inspect}")
+    #   else
+    #     error("response=#{response.inspect}")
+    #   end
+    
+    #   return response
+    # end
 
     def send_request(connection, text)
       response = connection.get do | request |
@@ -67,6 +96,25 @@ module WatsonModule
         request.params[:fl] = @fields
         request.params[:rows] = @rows
         request.params[:wt] = 'json'
+      end
+
+      return response
+    end
+  end
+
+  #
+  # NLCの実装クラス
+  #
+  class NaturalLanguageClassifierClient < WatsonRoot
+    def initialize(endpoint, username, password, classifier_id)
+      super(endpoint, username, password)
+      @classifier_id = classifier_id
+    end
+
+    def send_request(connection, text)
+      response = connection.get do | request |
+        request.url "/natural-language-classifier/api/v1/classifier/#{@classifier_id}/classify"
+        request.params[:text] = text
       end
 
       return response

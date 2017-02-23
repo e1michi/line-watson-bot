@@ -1,7 +1,7 @@
 #
-# LINE Messaging API Request Controller
+# LINE Messaging API Gnavi Controller
 #
-class RequestController < ApplicationController
+class GnaviController < ApplicationController
   #
   # callback以外の処理を除外
   #
@@ -29,22 +29,16 @@ class RequestController < ApplicationController
       when 'text' then
         # テキストの場合はそのまま
         text = model.message.text;
-      when 'audio' then
-        # 音声データはWatson STT経由でテキストを抽出
-        sttc = WatsonModule::SpeechToTextClient.new
-        response = sttc.getText(model.message.id)
-        next unless response.status == 200
-        text = response.body
       else
         next
       end
 
       # Watson R&Rの呼び出し
-      rarc = WatsonModule::RetrieveAndRankClient.new(
-        WATSON_ENDPOINT, WATSON_USERNAME, WATSON_PASSWORD,
-        WATSON_CLUSTER_ID, WATSON_RANKER_ID,
-        WATSON_DATA_FIELDS, WATSON_DATA_ROWS)
-      response = rarc.think(text)
+      nlcc = WatsonModule::NaturalLanguageClassifierClient.new(
+        NLC_ENDPOINT, NLC_USERNAME, NLC_PASSWORD,
+        NLC_CLUSTER_ID, NLC_RANKER_ID,
+        NLC_DATA_FIELDS, NLC_DATA_ROWS)
+      response = nlcc.search(text)
 
       if response.status == 200
         body = response.body

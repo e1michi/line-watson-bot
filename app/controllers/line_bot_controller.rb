@@ -49,6 +49,7 @@ class LineBotController < ApplicationController
         next
       end
 
+
       # Watson R&Rの呼び出し
       rarc = WatsonModule::RetrieveAndRankClient.new(
         WATSON_RAR_ENDPOINT, WATSON_RAR_USERNAME, WATSON_RAR_PASSWORD,

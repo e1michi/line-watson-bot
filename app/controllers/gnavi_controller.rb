@@ -1,5 +1,5 @@
 #
-# LINE Messaging API Gnavi Controller
+# LINE Messaging API Request Controller for Gnavi
 #
 class GnaviController < ApplicationController
   #
@@ -29,19 +29,25 @@ class GnaviController < ApplicationController
       when 'text' then
         # テキストの場合はそのまま
         text = model.message.text;
+      when 'audio' then
+        # 音声データはWatson STT経由でテキストを抽出
+        sttc = WatsonModule::SpeechToTextClient.new
+        response = sttc.getText(model.message.id)
+        next unless response.status == 200
+        text = response.body
       else
         next
       end
 
       # Watson R&Rの呼び出し
-      nlcc = WatsonModule::NaturalLanguageClassifierClient.new(
-        NLC_ENDPOINT, NLC_USERNAME, NLC_PASSWORD,
-        NLC_CLUSTER_ID, NLC_RANKER_ID,
-        NLC_DATA_FIELDS, NLC_DATA_ROWS)
-      response = nlcc.search(text)
+      rarc = WatsonModule::RetrieveAndRankClient.new(
+        WATSON_ENDPOINT, WATSON_USERNAME, WATSON_PASSWORD,
+        WATSON_CLUSTER_ID, WATSON_RANKER_ID,
+        WATSON_DATA_FIELDS, WATSON_DATA_ROWS)
+      result = rarc.think(text)
 
-      if response.status == 200
-        body = response.body
+      if result.status == 0
+        body = result.body
         if body['response']['numFound'] > 0
           text = body['response']['docs'][0]['body'][0]
         else
@@ -58,16 +64,5 @@ class GnaviController < ApplicationController
 
     # 常に正常ステータスを返す（仕様）
     render json: [], status: :ok
-  end
-
-  private
-  # リクエストの整合性チェック
-  #   info: https://developers.line.me/bot-api/getting-started-with-bot-api-trial#signature_validation
-  def is_validate_signature
-    signature = request.headers["X-LINE-Signature"]
-    http_request_body = request.raw_post
-    hash = OpenSSL::HMAC::digest(OpenSSL::Digest::SHA256.new, LINE_CHANNEL_SECRET, http_request_body)
-    signature_answer = Base64.strict_encode64(hash)
-    signature == signature_answer
   end
 end

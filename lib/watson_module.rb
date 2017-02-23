@@ -35,6 +35,8 @@ module WatsonModule
       if response.status == 200
         result.status = 0
         result.body = response.body
+      else
+        result.status = -1
       end
     
       return result
@@ -45,10 +47,7 @@ module WatsonModule
   # Watsonの処理結果格納クラス
   #
   class WatsonResult
-    def initialize
-      @status = -1
-      @body = nil
-    end
+    attr_accessor :status, :body
   end
 
   #

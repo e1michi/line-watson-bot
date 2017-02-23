@@ -1,7 +1,7 @@
 #
-# LINE Messaging API Request Controller
+# LINE Messaging API Request Controller for Univese
 #
-class RequestController < ApplicationController
+class UniverseController < ApplicationController
   #
   # callback以外の処理を除外
   #
@@ -44,10 +44,10 @@ class RequestController < ApplicationController
         WATSON_ENDPOINT, WATSON_USERNAME, WATSON_PASSWORD,
         WATSON_CLUSTER_ID, WATSON_RANKER_ID,
         WATSON_DATA_FIELDS, WATSON_DATA_ROWS)
-      response = rarc.think(text)
+      result = rarc.think(text)
 
-      if response.status == 200
-        body = response.body
+      if result.status == 0
+        body = result.body
         if body['response']['numFound'] > 0
           text = body['response']['docs'][0]['body'][0]
         else

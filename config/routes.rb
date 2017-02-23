@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
-  post '/callback' => 'request#callback'
+  post '/callback' => 'universe#callback'
   post '/gnavi' => 'gnavi#callback'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)

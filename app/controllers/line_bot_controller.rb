@@ -7,19 +7,6 @@ class LineBotController < ApplicationController
   #
   protect_from_forgery :except => [:universe, :gnavi] # For CSRF
 
-  private
-  def is_validated_request
-    if Rails.env == 'production'
-      # プロダクション環境時のみ
-      unless is_validate_signature
-        # 他サイトからのリクエストを除外
-        return false
-      end
-    end
-    
-    return true
-  end
-  
   #
   # Webhook処理(universe)
   #
@@ -48,7 +35,6 @@ class LineBotController < ApplicationController
       else
         next
       end
-
 
       # Watson R&Rの呼び出し
       rarc = WatsonModule::RetrieveAndRankClient.new(
@@ -124,5 +110,18 @@ class LineBotController < ApplicationController
 
     # 常に正常ステータスを返す（仕様）
     render json: [], status: :ok
+  end
+
+  private
+  def is_validated_request
+    if Rails.env == 'production'
+      # プロダクション環境時のみ
+      unless is_validate_signature
+        # 他サイトからのリクエストを除外
+        return false
+      end
+    end
+    
+    return true
   end
 end

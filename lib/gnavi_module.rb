@@ -24,7 +24,7 @@ module GnaviModule
         builder.adapter Faraday.default_adapter
       end
 
-      response = connection.post do | request |
+      response = connection.get do | request |
         request.url '/RestSearchAPI/20150630'
         request.headers = {
           'Content-Type' => 'application/json; charset=UTF-8',

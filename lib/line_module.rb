@@ -148,5 +148,4 @@ module LineModule
       return response
     end
   end
-
 end

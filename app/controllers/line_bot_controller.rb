@@ -118,14 +118,17 @@ debug("result=#{result.inspect}")
       # LINEテンプレートメッセージの作成
       columns = []
       result['rest'].each do | item |
-        col = {}
-        col['thumbnailImageUrl'] = item['image_url']['shop_image1']
-        col['title'] = item['name']
-        col['text'] = item['pr']['pr_short']
-        col['actions'] = {
+        col = {
+          thumbnailImageUrl: item['image_url']['shop_image1'],
+          title: item['name'],
+          text: item['pr']['pr_short'][0,60],
+          actions: [
+            {
               type: "uri",
               label: "詳細を表示",
               uri: item['url']
+            }
+          ]
         }
         columns.push(col)
       end
@@ -140,7 +143,7 @@ debug("result=#{result.inspect}")
           altText: "ぐるなびオススメの#{$gnavi_class_name[cond[0]]}",
           template: {
             type: 'carousel',
-            columns: columns.to_json
+            columns: columns
           }
         }
       ]      

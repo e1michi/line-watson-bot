@@ -29,12 +29,10 @@ module GnaviModule
         request.headers = {
           'Content-Type' => 'application/json; charset=UTF-8',
         }
-        request.body = {
-          keyid: @key,
-          format: 'json',
-          pref: code,
-          freeword: type
-        }
+        request.params['keyid'] = @key
+        request.params['format'] = 'json'
+        request.params['pref'] = code
+        request.params['freeword'] = type
       end
 
       error("response=#{response.inspect}") unless response.status == 200

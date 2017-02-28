@@ -38,7 +38,7 @@ module GnaviModule
       end
 
       error("response=#{response.inspect}") unless response.status == 200
-      return response
+      return response.body
     end
   end
 end

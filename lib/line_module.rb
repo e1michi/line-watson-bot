@@ -77,6 +77,9 @@ module LineModule
           }]
         }
       end
+
+      error("response=#{response.inspect}") unless response.status == 200
+      return response.body
     end
 
     def reply_template_message(to, text)
@@ -104,7 +107,7 @@ module LineModule
       end
 
       error("response=#{response.inspect}") unless response.status == 200
-      return response
+      return response.body
     end
   end
 

@@ -113,7 +113,7 @@ class LineBotController < ApplicationController
 
       # レストラン検索
       rs = GnaviModule::RestaurantSearch.new(GNAVI_ENDPOINT, GNAVI_ACCESS_KEY)
-      result = rs.search_with_pref(cond[0], 'PREF13')
+      result = rs.search_with_pref(cond[0], $gnavi_area_m_code[cond[1]])
 
       # LINEテンプレートメッセージの作成
       columns = []

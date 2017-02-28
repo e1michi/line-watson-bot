@@ -31,7 +31,11 @@ module GnaviModule
         }
         request.params['keyid'] = @key
         request.params['format'] = 'json'
-        request.params['pref'] = code
+        if code.length
+          request.params['areacode_m'] = code
+        else
+          request.params['pref'] = 'PREF13'
+        end
         request.params['hit_per_page'] = 5
         request.params['freeword'] = type
       end

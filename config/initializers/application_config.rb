@@ -29,3 +29,12 @@ $gnavi_class_name = {
     'izakaya' => '居酒屋',
     'bar' => 'バー'
 }
+
+$gnavi_area_m_code = {
+    'all' => '',
+    'ueno' => 'AREAM2198',
+    'ginza' => 'AREAM2105',
+    'aoyama' => 'AREAM2130',
+    'shibuya' => 'AREAM2126',
+    'shinjuku' => 'AREAM2115'
+}

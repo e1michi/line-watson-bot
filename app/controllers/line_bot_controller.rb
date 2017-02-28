@@ -149,6 +149,7 @@ class LineBotController < ApplicationController
         template: {
           type: 'carousel',
           columns: columns
+        }
       }
 
       # LINEサービスへのメッセージ送信

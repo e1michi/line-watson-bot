@@ -20,7 +20,7 @@ module GnaviModule
     
       connection = Faraday.new(:url => @endpoint) do | builder |
         builder.request :json
-        builder.response :json, :content_type => /\bjson$/
+        builder.response :json
         builder.adapter Faraday.default_adapter
       end
 

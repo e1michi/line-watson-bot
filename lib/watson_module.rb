@@ -108,7 +108,7 @@ module WatsonModule
 
     def send_request(connection, text)
       response = connection.get do | request |
-        request.url "/natural-language-classifier/api/v1/classifier/#{@classifier_id}/classify"
+        request.url "/natural-language-classifier/api/v1/classifiers/#{@classifier_id}/classify"
         request.params[:text] = text
       end
 

@@ -30,11 +30,11 @@ $gnavi_class_name = {
     'bar' => 'バー'
 }
 
-$gnavi_area_m_code = {
+$gnavi_area_code = {
     'all' => '',
-    'ueno' => 'AREAM2198',
-    'ginza' => 'AREAM2105',
-    'aoyama' => 'AREAM2130',
-    'shibuya' => 'AREAM2126',
-    'shinjuku' => 'AREAM2115'
+    'ueno' => 'AREAL2198',
+    'ginza' => 'AREAL2101',
+    'aoyama' => 'AREAL2125',
+    'shibuya' => 'AREAL2125',
+    'shinjuku' => 'AREAL2115'
 }

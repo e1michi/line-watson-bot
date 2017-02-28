@@ -136,7 +136,7 @@ class LineBotController < ApplicationController
       msg = [
         {
           type: 'text',
-          text: 'オススメのお店を紹介します。'
+          text: "オススメの#{gnavi_class_name[cond[0]]}を紹介します。"
         },
         {
           type: 'template',

@@ -21,3 +21,11 @@ WATSON_NLC_CLASSIFIER_ID = ENV['WATSON_NLC_CLASSIFIER_ID']
 
 GNAVI_ENDPOINT = 'https://api.gnavi.co.jp'
 GNAVI_ACCESS_KEY = ENV['GNAVI_ACCESS_KEY']
+
+gnavi_class_name = {
+    all: 'レストラン',
+    italian: 'イタリア料理レストラン',
+    french: 'フランス料理レストラン',
+    izakaya: '居酒屋',
+    bar: 'バー'
+}

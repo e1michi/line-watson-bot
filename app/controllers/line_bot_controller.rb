@@ -140,7 +140,7 @@ debug("result=#{result.inspect}")
           altText: "ぐるなびオススメの#{$gnavi_class_name[cond[0]]}",
           template: {
             type: 'carousel',
-            columns: columns
+            columns: columns.to_json
           }
         }
       ]      

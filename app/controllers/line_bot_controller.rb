@@ -133,14 +133,20 @@ class LineBotController < ApplicationController
         columns.push(col)
       end
 
-      msg = [{
-        type: 'template',
-        altText: 'ぐるなびオススメのお店',
-        template: {
-          type: 'carousel',
-          columns: columns
+      msg = [
+        {
+          type: 'text',
+          text: 'オススメのお店を紹介します。'
+        },
+        {
+          type: 'template',
+          altText: 'ぐるなびオススメのお店',
+          template: {
+            type: 'carousel',
+            columns: columns
+          }
         }
-      }]      
+      ]      
 
       # LINEサービスへのメッセージ送信
       rc = LineModule::ReplyClient.new(LINE_ENDPOINT, LINE_CHANNEL_ACCESS_TOKEN)

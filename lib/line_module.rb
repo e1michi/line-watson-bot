@@ -77,6 +77,7 @@ module LineModule
           }]
         }
       end
+    end
 
     def reply_template_message(to, text)
       debug("to=#{to.inspect}, text=#{text.inspect}")

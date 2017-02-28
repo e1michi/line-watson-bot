@@ -30,10 +30,10 @@ module GnaviModule
           'Content-Type' => 'application/json; charset=UTF-8',
         }
         request.body = {
-          'keyid' => @key,
-          'format' => 'json',
-          'pref' => code,
-          'freeword' => type
+          keyid: @key,
+          format: 'json',
+          pref: code,
+          freeword: type
         }
       end
 

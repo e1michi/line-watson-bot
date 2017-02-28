@@ -114,14 +114,14 @@ class LineBotController < ApplicationController
       # レストラン検索
       rs = GnaviModule::RestaurantSearch.new(GNAVI_ENDPOINT, GNAVI_ACCESS_KEY)
       result = rs.search_with_pref(cond[0], $gnavi_area_code[cond[1]])
-
+debug("result=#{result.inspect}")
       # LINEテンプレートメッセージの作成
       columns = []
       result['rest'].each do | item |
         col = {
           thumbnailImageUrl: item['image_url']['shop_image1'],
           title: item['name'],
-          text: item['pr']['pr_long'][0,60],
+          text: item['pr']['pr_short'][0,60],
           actions: [
             {
               type: "uri",

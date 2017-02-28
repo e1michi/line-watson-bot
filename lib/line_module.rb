@@ -82,8 +82,8 @@ module LineModule
       return response.body
     end
 
-    def reply_template_message(to, text)
-      debug("to=#{to.inspect}, text=#{text.inspect}")
+    def reply_template_message(to, msg)
+      debug("to=#{to.inspect}, msg=#{msg.inspect}")
     
       connection = Faraday.new(:url => @endpoint) do | builder |
         builder.request :json
@@ -99,11 +99,7 @@ module LineModule
         }
         request.body = {
           replyToken: to,
-          messages: [{
-            type: 'template',
-            altText: 'template',
-            template: text
-          }]
+          messages: msg
         }
       end
 

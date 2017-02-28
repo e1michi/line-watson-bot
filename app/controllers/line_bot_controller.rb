@@ -121,32 +121,26 @@ class LineBotController < ApplicationController
         col = {
           thumbnailImageUrl: item['image_url']['shop_image1'],
           title: item['name'],
-          text: 'xxxx', #item['pr']['pr_short'],
+          text: item['pr']['pr_short'][0,60],
           actions: [
             {
-              type: "postback",
-              label: "Buy",
-              data: "action=buy&itemid=111"
-            },
-            {
-              type: "postback",
-              label: "Add to cart",
-              data: "action=add&itemid=111"
-            },
-            {
               type: "uri",
-              label: "View detail",
-              uri: "http://example.com/page/111"
+              label: "詳細を表示",
+              uri: item['url']
             }
           ]
         }
         columns.push(col)
       end
 
-      msg = {
-        type: 'carousel',
-        columns: columns
-      }
+      msg = [{
+        type: 'template',
+        altText: 'ぐるなびオススメのお店',
+        template: {
+          type: 'carousel',
+          columns: columns
+        }
+      }]      
 
       # LINEサービスへのメッセージ送信
       rc = LineModule::ReplyClient.new(LINE_ENDPOINT, LINE_CHANNEL_ACCESS_TOKEN)

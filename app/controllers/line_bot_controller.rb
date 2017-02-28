@@ -145,7 +145,7 @@ class LineBotController < ApplicationController
 
       msg = {
         type: 'template',
-        altText: 'template'
+        altText: 'template',
         template: {
           type: 'carousel',
           columns: columns

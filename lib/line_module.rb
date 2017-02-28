@@ -54,7 +54,31 @@ module LineModule
       @token = token
     end
 
-    def reply_message(to, text)
+    def reply_text_message(to, text)
+      debug("to=#{to.inspect}, text=#{text.inspect}")
+    
+      connection = Faraday.new(:url => @endpoint) do | builder |
+        builder.request :json
+        builder.response :json, :content_type => /\bjson$/
+        builder.adapter Faraday.default_adapter
+      end
+
+      response = connection.post do | request |
+        request.url '/v2/bot/message/reply'
+        request.headers = {
+          'Content-Type' => 'application/json; charset=UTF-8',
+          'Authorization' => "Bearer #{@token}"
+        }
+        request.body = {
+          replyToken: to,
+          messages: [{
+            type: 'text',
+            text: text
+          }]
+        }
+      end
+
+    def reply_template_message(to, text)
       debug("to=#{to.inspect}, text=#{text.inspect}")
     
       connection = Faraday.new(:url => @endpoint) do | builder |

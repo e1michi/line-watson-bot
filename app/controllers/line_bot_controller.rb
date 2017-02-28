@@ -94,10 +94,10 @@ class LineBotController < ApplicationController
 
       if result.status == 0
         body = result.body
-        if body['response']['numFound'] > 0
-          text = body['response']['docs'][0]['body'][0]
+        if body['classes'][0]['confidence'] >= 0.8
+          text = body['classes'][0]['class_name']
         else
-          text = '答えが見つかりませんでした。'
+          text = '条件を変更してください。'
         end
       else
         text = 'エラーが起きました。'
@@ -125,3 +125,41 @@ class LineBotController < ApplicationController
     return true
   end
 end
+
+{
+  "classifier_id" : "12d0fcx34-nlc-1594",
+  "url" : "https://gateway.watson-j.jp/natural-language-classifier/api/v1/classifiers/12d0fcx34-nlc-1594",
+  "text" : "フレンチ",
+  "top_class" : "french@all",
+  "classes" : [ {
+    "class_name" : "french@all",
+    "confidence" : 1.0
+  }, {
+    "class_name" : "all@shinjuku",
+    "confidence" : 0.0
+  }, {
+    "class_name" : "bar@shibuya",
+    "confidence" : 0.0
+  }, {
+    "class_name" : "french@ueno",
+    "confidence" : 0.0
+  }, {
+    "class_name" : "italian@aoyama",
+    "confidence" : 0.0
+  }, {
+    "class_name" : "french@ginza",
+    "confidence" : 0.0
+  }, {
+    "class_name" : "izakaya@aoyama",
+    "confidence" : 0.0
+  }, {
+    "class_name" : "italian@shibuya",
+    "confidence" : 0.0
+  }, {
+    "class_name" : "izakaya@ginza",
+    "confidence" : 0.0
+  }, {
+    "class_name" : "izakaya@shibuya",
+    "confidence" : 0.0
+  } ]
+}

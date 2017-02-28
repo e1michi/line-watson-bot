@@ -102,21 +102,58 @@ class LineBotController < ApplicationController
       end
 
       if text != ""
-        # LINEサービスへのテキスト送信
+        # LINEサービスへのテキスト送信(エラー、低スコア時)
         rc = LineModule::ReplyClient.new(LINE_ENDPOINT, LINE_CHANNEL_ACCESS_TOKEN)
         rc.reply_text_message(model.replyToken, text)
         next
       end
 
+      # クラスの取り出し
       cond = result.body['classes'][0]['class_name'].split('@')
+
+      # レストラン検索
       rs = GnaviModule::RestaurantSearch.new(GNAVI_ENDPOINT, GNAVI_ACCESS_KEY)
       result = rs.search_with_pref(cond[0], 'PREF13')
 
-      text = result['rest'][0]['name']
-      
-      # LINEサービスへのテキスト送信
+      # LINEテンプレートメッセージの作成
+      columns = []
+      result['rest'].each do | item |
+        col = {
+          thumbnailImageUrl: item['image_url']['shop_image1'],
+          title: item['name'],
+          text: item['pr']['pr_short'],
+          actions: [
+            {
+              type: "postback",
+              label: "Buy",
+              data: "action=buy&itemid=111"
+            },
+            {
+              type: "postback",
+              label: "Add to cart",
+              data: "action=add&itemid=111"
+            },
+            {
+              type: "uri",
+              label: "View detail",
+              uri: "http://example.com/page/111"
+            }
+          ]
+        }
+        columns.push(col)
+      end
+
+      msg = {
+        type: 'template',
+        altText: 'template'
+        template: {
+          type: 'carousel',
+          columns: columns
+      }
+
+      # LINEサービスへのメッセージ送信
       rc = LineModule::ReplyClient.new(LINE_ENDPOINT, LINE_CHANNEL_ACCESS_TOKEN)
-      rc.reply_text_message(model.replyToken, text)
+      rc.reply_template_message(model.replyToken, msg)
     end
 
     # 常に正常ステータスを返す（仕様）

@@ -100,8 +100,9 @@ module LineModule
         request.body = {
           replyToken: to,
           messages: [{
-            type: 'text',
-            text: text
+            type: 'template',
+            altText: 'template',
+            template: text
           }]
         }
       end

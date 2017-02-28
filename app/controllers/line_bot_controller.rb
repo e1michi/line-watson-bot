@@ -144,12 +144,8 @@ class LineBotController < ApplicationController
       end
 
       msg = {
-        type: 'template',
-        altText: 'template',
-        template: {
-          type: 'carousel',
-          columns: columns
-        }
+        type: 'carousel',
+        columns: columns
       }
 
       # LINEサービスへのメッセージ送信

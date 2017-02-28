@@ -121,7 +121,7 @@ class LineBotController < ApplicationController
         col = {
           thumbnailImageUrl: item['image_url']['shop_image1'],
           title: item['name'],
-          text: item['pr']['pr_short'][0,60],
+          text: item['pr']['pr_long'][0,60],
           actions: [
             {
               type: "uri",

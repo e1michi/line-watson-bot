@@ -31,7 +31,8 @@ module GnaviModule
         }
         request.body = {
           keyid: @key,
-          'format': 'json',
+          format: 'json',
+          callback: 'gnavi',
           pref: code,
           freeword: type
         }

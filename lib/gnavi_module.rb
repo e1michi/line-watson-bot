@@ -32,6 +32,7 @@ module GnaviModule
         request.params['keyid'] = @key
         request.params['format'] = 'json'
         request.params['pref'] = code
+        request.params['hit_per_page'] = 5
         request.params['freeword'] = type
       end
 

@@ -112,9 +112,11 @@ class LineBotController < ApplicationController
       rs = GnaviModule::RestaurantSearch.new(GNAVI_ENDPOINT, GNAVI_ACCESS_KEY)
       result = rs.search_with_pref(cond[0], 'PREF13')
 
+      text = result['rest'][0]['name']
+      
       # LINEサービスへのテキスト送信
       rc = LineModule::ReplyClient.new(LINE_ENDPOINT, LINE_CHANNEL_ACCESS_TOKEN)
-      rc.reply_text_message(model.replyToken, result)
+      rc.reply_text_message(model.replyToken, text)
     end
 
     # 常に正常ステータスを返す（仕様）

@@ -136,16 +136,15 @@ class LineBotController < ApplicationController
         {
           :type => 'text',
           :text => "オススメの#{$gnavi_class_name[cond[0]]}を紹介します。"
+        },
+        {
+          :type => 'template',
+          :altText => "ぐるなびオススメの#{$gnavi_class_name[cond[0]]}",
+          :template => {
+            :type => 'carousel',
+            :columns => columns
+          }
         }
-        # },
-        # {
-        #   :type => 'template',
-        #   :altText => "ぐるなびオススメの#{$gnavi_class_name[cond[0]]}",
-        #   :template => {
-        #     :type => 'carousel',
-        #     :columns => columns
-        #   }
-        # }
       ]
 
       # LINEサービスへのメッセージ送信

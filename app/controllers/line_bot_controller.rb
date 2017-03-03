@@ -119,8 +119,14 @@ class LineBotController < ApplicationController
       columns = []
       result['rest'].each do | item |
         col = {}
-        col[:thumbnailImageUrl] = item['image_url']['shop_image1'] if item['image_url']['shop_image1'].length > 0
-        col[:title][0,40] = item['name'] if item['name'].length > 0
+        col[:thumbnailImageUrl] = '/no_image.png'
+        if item['image_url']['shop_image1'].length > 0
+          col[:thumbnailImageUrl] = item['image_url']['shop_image1']
+        end
+        col[:title] = 'No Title'
+        if item['name'].length > 0
+          col[:title] = item['name'][0,40]
+        end
         col[:text] = '説明は詳細にて確認してください。'
         if item['pr']['pr_short'].length > 0
           col[:text] = item['pr']['pr_short'][0,60]

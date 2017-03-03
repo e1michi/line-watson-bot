@@ -125,10 +125,11 @@ class LineBotController < ApplicationController
         if item['pr']['pr_short'].length > 0
           col[:text] = item['pr']['pr_short']
         end
-        col[:actions] = [{}]
-        col[:actions][0][:type] = 'uri'
-        col[:actions][0][:label] = '詳細を表示'
-        col[:actions][0][:uri] = item['url']
+        action = {}
+        action[:type] = 'uri'
+        action[:label] = '詳細を表示'
+        action[:uri] = item['url']
+        col[:actions] = [action]
         columns.push(col)
       end
 

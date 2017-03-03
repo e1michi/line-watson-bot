@@ -102,7 +102,7 @@ module LineModule
           messages: msg
         }
       end
-
+debug("body=#{request.body.inspect}")
       error("response=#{response.inspect}") unless response.status == 200
       return response.body
     end

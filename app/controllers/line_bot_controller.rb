@@ -121,7 +121,7 @@ class LineBotController < ApplicationController
         col = {}
         col[:thumbnailImageUrl] = item['image_url']['shop_image1']
         col[:title] = item['name']
-        col[:text] = '説明文がありません。'
+        col[:text] = '説明は詳細にて確認してください。'
         if item['pr']['pr_short'].length > 0
           col[:text] = item['pr']['pr_short']
         end

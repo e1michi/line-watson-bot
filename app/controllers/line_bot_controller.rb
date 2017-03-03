@@ -118,41 +118,37 @@ class LineBotController < ApplicationController
       # LINEテンプレートメッセージの作成
       columns = []
       result['rest'].each do | item |
-        pr_text = ''
-        pr_text = item['pr']['pr_short'] if item['pr']['pr_short'].length > 0
-        col = {
-          thumbnailImageUrl: item['image_url']['shop_image1'],
-          title: item['name'],
-          text: pr_text,
-          actions: [
-            {
-              type: "uri",
-              label: "詳細を表示",
-              uri: item['url']
-            }
-          ]
-        }
+        col = {}
+        col[:thumbnailImageUrl] = item['image_url']['shop_image1']
+        col[:title] = item['name']
+        if item['pr']['pr_short'].length > 0
+          col[:text] = item['pr']['pr_short']
+        end
+        col[:actions] = {}
+        col[:actions][:type] = 'uri'
+        col[:actions][:label] = '詳細を表示'
+        col[:actions][:uri] = item['url']
         columns.push(col)
       end
 
       msg = [
         {
-          type: 'text',
-          text: "オススメの#{$gnavi_class_name[cond[0]]}を紹介します。"
+          :type => 'text',
+          :text => "オススメの#{$gnavi_class_name[cond[0]]}を紹介します。"
         },
         {
-          type: 'template',
-          altText: "ぐるなびオススメの#{$gnavi_class_name[cond[0]]}",
-          template: {
-            type: 'carousel',
-            columns: columns
+          :type => 'template',
+          :altText => "ぐるなびオススメの#{$gnavi_class_name[cond[0]]}",
+          :template => {
+            :type => 'carousel',
+            :columns => columns
           }
         }
       ]      
 
       # LINEサービスへのメッセージ送信
       rc = LineModule::ReplyClient.new(LINE_ENDPOINT, LINE_CHANNEL_ACCESS_TOKEN)
-      rc.reply_template_message(model.replyToken, msg)
+      rc.reply_template_message(model.replyToken, msg.to_json)
     end
 
     # 常に正常ステータスを返す（仕様）

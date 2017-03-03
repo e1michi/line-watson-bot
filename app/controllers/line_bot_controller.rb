@@ -123,7 +123,7 @@ class LineBotController < ApplicationController
         col[:title] = item['name']
         col[:text] = '説明は詳細にて確認してください。'
         if item['pr']['pr_short'].length > 0
-          col[:text] = item['pr']['pr_short']
+          col[:text] = item['pr']['pr_short'][0,60]
         end
         action = {}
         action[:type] = 'uri'

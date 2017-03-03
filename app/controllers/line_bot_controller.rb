@@ -150,7 +150,7 @@ class LineBotController < ApplicationController
 
       # LINEサービスへのメッセージ送信
       rc = LineModule::ReplyClient.new(LINE_ENDPOINT, LINE_CHANNEL_ACCESS_TOKEN)
-      rc.reply_template_message(model.replyToken, msg.to_json)
+      rc.reply_template_message(model.replyToken, msg)
     end
 
     # 常に正常ステータスを返す（仕様）

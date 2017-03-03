@@ -15,7 +15,7 @@ module GnaviModule
       @key = key
     end
 
-    def search_with_pref(type, code)
+    def search_with_area(type, code)
       debug("type=#{type.inspect}, code=#{code.inspect}")
     
       connection = Faraday.new(:url => @endpoint) do | builder |

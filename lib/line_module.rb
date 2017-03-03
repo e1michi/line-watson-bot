@@ -101,8 +101,9 @@ module LineModule
           replyToken: to,
           messages: msg
         }
-      end
 debug("body=#{request.body.inspect}")
+      end
+
       error("response=#{response.inspect}") unless response.status == 200
       return response.body
     end

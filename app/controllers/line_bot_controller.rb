@@ -146,8 +146,8 @@ class LineBotController < ApplicationController
         #     :columns => columns
         #   }
         # }
-      ]      
-
+      ]
+debug("msg=#{msg.to_json}")
       # LINEサービスへのメッセージ送信
       rc = LineModule::ReplyClient.new(LINE_ENDPOINT, LINE_CHANNEL_ACCESS_TOKEN)
       rc.reply_template_message(model.replyToken, msg.to_json)

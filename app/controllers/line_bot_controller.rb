@@ -119,7 +119,7 @@ class LineBotController < ApplicationController
       columns = []
       result['rest'].each do | item |
         col = {}
-        col[:thumbnailImageUrl] = 'https://www.google.co.jp/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=0ahUKEwjKgsLx9LrSAhVLyrwKHfuhCOwQjRwIBw&url=https%3A%2F%2Fcorporate.gnavi.co.jp%2Frecruit%2F&psig=AFQjCNE8Af7JiLeKzjUyROrdprWGO4BTEw&ust=1488650324495442'
+        col[:thumbnailImageUrl] = 'https://c-cpnt.gnst.jp/header/img/logo.png'
         if item['image_url']['shop_image1'].length > 0
           col[:thumbnailImageUrl] = item['image_url']['shop_image1']
         end

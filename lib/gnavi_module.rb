@@ -349,8 +349,6 @@ module GnaviModule
     include LoggerModule
 
     def initialize(endpoint, key)
-      debug("endpoint=#{endpoint.inspect}, key=#{key.inspect}")
-      
       @endpoint = endpoint
       @key = key
     end

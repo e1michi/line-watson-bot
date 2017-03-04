@@ -13,8 +13,6 @@ module LineModule
     validates :userId, presence: true
   
     def initialize(event)
-      debug("event=#{event.inspect}")
-      
       @type = event[:type]
       @replyToken = event[:replyToken]
       @userId = event[:source][:userId]
@@ -33,8 +31,6 @@ module LineModule
     validates :id, presence: true
   
     def initialize(message)
-      debug("message=#{message.inspect}")
-      
       @type = message[:type]
       @id = message[:id]
       @text = message[:text]
@@ -55,8 +51,6 @@ module LineModule
     include LoggerModule
 
     def initialize(endpoint, token)
-      debug("endpoint=#{endpoint.inspect}, token=#{token.inspect}")
-      
       @endpoint = endpoint
       @token = token
     end
@@ -85,8 +79,17 @@ module LineModule
         }
       end
 
-      error("response=#{response.inspect}") unless response.status == 200
-      return response.body
+      result = LineResult.new
+      if response.status == 200
+        debug("response=#{response.inspect}")
+        result.status = 0
+        result.body = response.body
+      else
+        error("response=#{response.inspect}")
+        result.status = -1
+      end
+    
+      return result
     end
 
     def reply_template_message(to, msg)
@@ -108,8 +111,6 @@ module LineModule
           replyToken: to,
           messages: msg
         }
-
-        debug("body=#{request.body.inspect}")
       end
 
       result = LineResult.new
@@ -133,8 +134,6 @@ module LineModule
     include LoggerModule
 
     def initialize(endpoint, token)
-      debug("endpoint=#{endpoint.inspect}, token=#{token.inspect}")
-      
       @endpoint = endpoint
       @token = token
     end
@@ -161,8 +160,6 @@ module LineModule
             text: text
           }]
         }
-
-        debug("body=#{request.body.inspect}")
       end
 
       result = LineResult.new

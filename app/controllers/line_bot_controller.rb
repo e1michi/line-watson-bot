@@ -56,7 +56,8 @@ class LineBotController < ApplicationController
       
       # LINEサービスへのテキスト送信
       rc = LineModule::ReplyClient.new(LINE_ENDPOINT, LINE_CHANNEL_ACCESS_TOKEN)
-      rc.reply_message(model.replyToken, text)
+      result = rc.reply_message(model.replyToken, text)
+      debug("result=#{result.inspect}")
     end
 
     # 常に正常ステータスを返す（仕様）

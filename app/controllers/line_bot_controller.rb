@@ -95,14 +95,14 @@ class LineBotController < ApplicationController
       text = ""
       if result.status == 0
         if result.body['classes'][0]['confidence'] < 0.8
-          text = '条件を変更してください。'
+          text = "オススメの候補がありませんでした。\n質問を変えてみてください。"
         end
       else
         text = 'エラーが起きました。'
       end
 
       if text != ""
-        # LINEサービスへのテキスト送信(エラー、低スコア時)
+        # LINEサービスへのテキスト送信(エラー、低スコア)
         rc = LineModule::ReplyClient.new(LINE_ENDPOINT, LINE_CHANNEL_ACCESS_TOKEN)
         rc.reply_text_message(model.replyToken, text)
         next
@@ -113,7 +113,23 @@ class LineBotController < ApplicationController
 
       # レストラン検索
       rs = GnaviModule::RestaurantSearch.new(GNAVI_ENDPOINT, GNAVI_ACCESS_KEY)
-      result = rs.search_with_category_area(GNAVI_CATEGORY_CODE[cond[0]], GNAVI_AREA_CODE[cond[1]])
+      result = rs.search_with_category_area(cond[0], cond[1])
+
+      text = ""
+      if result.status == 0
+        if result.body['total_hit_count'] == 0
+          text = "オススメの情報がありませんでした。\n質問を変えてみてください。"
+        end
+      else
+        text = 'エラーが起きました。'
+      end
+
+      if text != ""
+        # LINEサービスへのテキスト送信(エラー、該当レコードなし)
+        rc = LineModule::ReplyClient.new(LINE_ENDPOINT, LINE_CHANNEL_ACCESS_TOKEN)
+        rc.reply_text_message(model.replyToken, text)
+        next
+      end
 
       # LINEテンプレートメッセージの作成
       columns = []
@@ -156,7 +172,8 @@ class LineBotController < ApplicationController
 
       # LINEサービスへのメッセージ送信
       rc = LineModule::ReplyClient.new(LINE_ENDPOINT, LINE_CHANNEL_ACCESS_TOKEN)
-      rc.reply_template_message(model.replyToken, msg)
+      result = rc.reply_template_message(model.replyToken, msg)
+      debug("result=#{result.inspect}")
     end
 
     # 常に正常ステータスを返す（仕様）

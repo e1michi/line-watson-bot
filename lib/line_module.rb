@@ -42,6 +42,13 @@ module LineModule
   end
 
   #
+  # APIの実行結果格納クラス
+  #
+  class LineResult
+    attr_accessor :status, :body
+  end
+
+  #
   # ReplyMessageの実装クラス
   #
   class ReplyClient
@@ -101,11 +108,21 @@ module LineModule
           replyToken: to,
           messages: msg
         }
-debug("body=#{request.body.inspect}")
+
+        debug("body=#{request.body.inspect}")
       end
 
-      error("response=#{response.inspect}") unless response.status == 200
-      return response.body
+      result = LineResult.new
+      if response.status == 200
+        debug("response=#{response.inspect}")
+        result.status = 0
+        result.body = response.body
+      else
+        error("response=#{response.inspect}")
+        result.status = -1
+      end
+    
+      return result
     end
   end
 
@@ -144,10 +161,21 @@ debug("body=#{request.body.inspect}")
             text: text
           }]
         }
+
+        debug("body=#{request.body.inspect}")
       end
 
-      error("response=#{response.inspect}") unless response.status == 200
-      return response
+      result = LineResult.new
+      if response.status == 200
+        debug("response=#{response.inspect}")
+        result.status = 0
+        result.body = response.body
+      else
+        error("response=#{response.inspect}")
+        result.status = -1
+      end
+    
+      return result
     end
   end
 end

@@ -15,8 +15,8 @@ module GnaviModule
       @key = key
     end
 
-    def search_with_area(type, code)
-      debug("type=#{type.inspect}, code=#{code.inspect}")
+    def search_with_category_area(category, area)
+      debug("category=#{category.inspect}, area=#{area.inspect}")
     
       connection = Faraday.new(:url => @endpoint) do | builder |
         builder.request :json
@@ -31,12 +31,14 @@ module GnaviModule
         }
         request.params['keyid'] = @key
         request.params['format'] = 'json'
-        request.params['pref'] = 'PREF13'
-        if code.length
-          request.params['areacode_l'] = code
-        end
         request.params['hit_per_page'] = 5
-        request.params['freeword'] = type
+        if category.length
+          request.params['category_l'] = category
+        end
+        request.params['pref'] = 'PREF13'
+        if area.length
+          request.params['areacode_m'] = area
+        end
       end
 
       error("response=#{response.inspect}") unless response.status == 200

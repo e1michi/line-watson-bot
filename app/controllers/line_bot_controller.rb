@@ -113,7 +113,7 @@ class LineBotController < ApplicationController
 
       # レストラン検索
       rs = GnaviModule::RestaurantSearch.new(GNAVI_ENDPOINT, GNAVI_ACCESS_KEY)
-      result = rs.search_with_area(cond[0], $gnavi_area_code[cond[1]])
+      result = rs.search_with_category_area(GNAVI_CATEGORY_CODE[cond[0]], GNAVI_AREA_CODE[cond[1]])
 
       # LINEテンプレートメッセージの作成
       columns = []
@@ -142,11 +142,11 @@ class LineBotController < ApplicationController
       msg = [
         {
           :type => 'text',
-          :text => "オススメの#{$gnavi_class_name[cond[0]]}を紹介します。"
+          :text => 'オススメのお店を表示します。'
         },
         {
           :type => 'template',
-          :altText => "ぐるなびオススメの#{$gnavi_class_name[cond[0]]}",
+          :altText => 'ぐるなびのオススメ',
           :template => {
             :type => 'carousel',
             :columns => columns

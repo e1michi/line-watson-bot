@@ -96,7 +96,7 @@ class LineBotController < ApplicationController
       text = ""
       if result.status == 0
         if result.body['classes'][0]['confidence'] < 0.8
-          text = "オススメの候補がありませんでした。\n質問を変えてみてください。"
+          text = "おすすめの候補がありませんでした。\n文章を変えてみてください。"
         end
       else
         text = 'エラーが起きました。'
@@ -119,7 +119,7 @@ class LineBotController < ApplicationController
       text = ""
       if result.status == 0
         if result.body['total_hit_count'] == 0
-          text = "オススメの情報がありませんでした。\n質問を変えてみてください。"
+          text = "おすすめの情報がありませんでした。\n文章を変えてみてください。"
         end
       else
         text = 'エラーが起きました。'
@@ -159,11 +159,11 @@ class LineBotController < ApplicationController
       msg = [
         {
           :type => 'text',
-          :text => 'オススメのお店を表示します。'
+          :text => 'おすすめのお店が見つかりました。'
         },
         {
           :type => 'template',
-          :altText => 'ぐるなびのオススメ',
+          :altText => 'おすすめのお店',
           :template => {
             :type => 'carousel',
             :columns => columns

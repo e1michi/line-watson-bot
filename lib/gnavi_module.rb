@@ -224,40 +224,40 @@ module GnaviModule
   end
 end
       # LINEテンプレートメッセージの作成
-      columns = []
-      result['rest'].each do | item |
-        col = {}
-        col[:thumbnailImageUrl] = 'https://c-cpnt.gnst.jp/header/img/logo.png'
-        if item['image_url']['shop_image1'].length > 0
-          col[:thumbnailImageUrl] = item['image_url']['shop_image1']
-        end
-        col[:title] = 'No Title'
-        if item['name'].length > 0
-          col[:title] = item['name'][0,40]
-        end
-        col[:text] = '説明は詳細にて確認してください。'
-        if item['pr']['pr_short'].length > 0
-          col[:text] = item['pr']['pr_short'][0,60]
-        end
-        action = {}
-        action[:type] = 'uri'
-        action[:label] = '詳細を表示'
-        action[:uri] = item['url']
-        col[:actions] = [action]
-        columns.push(col)
-      end
+      # columns = []
+      # result['rest'].each do | item |
+      #   col = {}
+      #   col[:thumbnailImageUrl] = 'https://c-cpnt.gnst.jp/header/img/logo.png'
+      #   if item['image_url']['shop_image1'].length > 0
+      #     col[:thumbnailImageUrl] = item['image_url']['shop_image1']
+      #   end
+      #   col[:title] = 'No Title'
+      #   if item['name'].length > 0
+      #     col[:title] = item['name'][0,40]
+      #   end
+      #   col[:text] = '説明は詳細にて確認してください。'
+      #   if item['pr']['pr_short'].length > 0
+      #     col[:text] = item['pr']['pr_short'][0,60]
+      #   end
+      #   action = {}
+      #   action[:type] = 'uri'
+      #   action[:label] = '詳細を表示'
+      #   action[:uri] = item['url']
+      #   col[:actions] = [action]
+      #   columns.push(col)
+      # end
 
-      msg = [
-        {
-          :type => 'text',
-          :text => 'オススメのお店を表示します。'
-        },
-        {
-          :type => 'template',
-          :altText => 'ぐるなびのオススメ',
-          :template => {
-            :type => 'carousel',
-            :columns => columns
-          }
-        }
-      ]
+      # msg = [
+      #   {
+      #     :type => 'text',
+      #     :text => 'オススメのお店を表示します。'
+      #   },
+      #   {
+      #     :type => 'template',
+      #     :altText => 'ぐるなびのオススメ',
+      #     :template => {
+      #       :type => 'carousel',
+      #       :columns => columns
+      #     }
+      #   }
+      # ]

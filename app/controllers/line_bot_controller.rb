@@ -152,11 +152,12 @@ class LineBotController < ApplicationController
         action1[:type] = 'uri'
         action1[:label] = '詳細を表示'
         action1[:uri] = item['url']
-        action2 = {}
-        action2[:type] = 'uri'
-        action2[:label] = '評価する'
-        action2[:uri] = item['url']
-        col[:actions] = [action1, action2]
+        # action2 = {}
+        # action2[:type] = 'uri'
+        # action2[:label] = '評価する'
+        # action2[:uri] = item['url']
+        # col[:actions] = [action1, action2]
+        col[:actions] = [action1]
         columns.push(col)
       end
 

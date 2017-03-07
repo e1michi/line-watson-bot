@@ -55,7 +55,7 @@ class LineBotController < ApplicationController
       end
       
       # LINEサービスへのテキスト送信
-      rc = LineModule::ReplyClient.new(LINE_ENDPOINT, LINE_CHANNEL_ACCESS_TOKEN)
+      rc = LineModule::ReplyClient.new(LINE_ENDPOINT, LINE_RAR_CHANNEL_ACCESS_TOKEN)
       result = rc.reply_text_message(model.replyToken, text)
       debug("result=#{result.inspect}")
     end
@@ -104,7 +104,7 @@ class LineBotController < ApplicationController
 
       if text != ""
         # LINEサービスへのテキスト送信(エラー、低スコア)
-        rc = LineModule::ReplyClient.new(LINE_ENDPOINT, LINE_CHANNEL_ACCESS_TOKEN)
+        rc = LineModule::ReplyClient.new(LINE_ENDPOINT, LINE_NLC_CHANNEL_ACCESS_TOKEN)
         rc.reply_text_message(model.replyToken, text)
         next
       end
@@ -127,7 +127,7 @@ class LineBotController < ApplicationController
 
       if text != ""
         # LINEサービスへのテキスト送信(エラー、該当レコードなし)
-        rc = LineModule::ReplyClient.new(LINE_ENDPOINT, LINE_CHANNEL_ACCESS_TOKEN)
+        rc = LineModule::ReplyClient.new(LINE_ENDPOINT, LINE_NLC_CHANNEL_ACCESS_TOKEN)
         rc.reply_text_message(model.replyToken, text)
         next
       end
@@ -177,7 +177,7 @@ class LineBotController < ApplicationController
       ]
 
       # LINEサービスへのメッセージ送信
-      rc = LineModule::ReplyClient.new(LINE_ENDPOINT, LINE_CHANNEL_ACCESS_TOKEN)
+      rc = LineModule::ReplyClient.new(LINE_ENDPOINT, LINE_NLC_CHANNEL_ACCESS_TOKEN)
       result = rc.reply_template_message(model.replyToken, msg)
       debug("result=#{result.inspect}")
     end

@@ -12,7 +12,7 @@ class LineBotController < ApplicationController
   #
   def universe
     # リクエスト元のチェック
-    unless is_validated_request
+    unless is_validated_request(LINE_RAR_CHANNEL_SECRET)
       render json: [], status: 470
     end
 
@@ -69,7 +69,7 @@ class LineBotController < ApplicationController
   #
   def gnavi
     # リクエスト元のチェック
-    unless is_validated_request
+    unless is_validated_request(LINE_NLC_CHANNEL_SECRET)
       render json: [], status: 470
     end
 
@@ -187,10 +187,10 @@ class LineBotController < ApplicationController
   end
 
   private
-  def is_validated_request
+  def is_validated_request(channel_secret)
     if Rails.env == 'production'
       # プロダクション環境時のみ
-      unless is_validate_signature
+      unless is_validate_signature(channel_secret)
         # 他サイトからのリクエストを除外
         return false
       end
